@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('Sign in')}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: header}"></th:block>
+<main class="auth">
+    <div class="card">
+        <h1>Welcome back</h1>
+        <p class="muted">Sign in to chat with the assistant, save builds and check out.</p>
+        <div class="flash error" th:if="${error}" th:text="${error}"></div>
+        <div class="flash success" th:if="${loggedOut}">You have signed out.</div>
+        <div class="flash success" th:if="${success}" th:text="${success}"></div>
+        <form th:action="@{/sign-in}" method="post" style="margin-top:16px">
+            <div class="field"><label for="username">Username or email</label><input id="username" name="username" type="text" autocomplete="username" required autofocus></div>
+            <div class="field"><label for="password">Password</label><input id="password" name="password" type="password" autocomplete="current-password" required></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+                <label class="check"><input type="checkbox" name="remember-me"> Remember me</label>
+                <a class="link" th:href="@{/forgot-password}" style="font-size:.88rem">Forgot password?</a>
+            </div>
+            <button class="btn block lg" type="submit">Sign in</button>
+        </form>
+        <p style="margin-top:16px;text-align:center" class="muted">New here? <a class="link" th:href="@{/sign-up}">Create an account</a></p>
+    </div>
+</main>
+<th:block th:replace="~{fragments/layout :: footer}"></th:block>
+<th:block th:replace="~{fragments/layout :: overlays}"></th:block>
+</body>
+</html>

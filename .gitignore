@@ -1,0 +1,18 @@
+# Secrets and local-only files
+.env
+**/.env
+creds.txt
+**/creds.txt
+application-local.properties
+
+# Build output and runtime data
+target/
+**/target/
+uploads/
+missing.txt
+__pycache__/
+
+# IDE
+.idea/
+*.iml
+.vscode/

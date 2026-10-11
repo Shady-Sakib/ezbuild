@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('AI Build Assistant')}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: header}"></th:block>
+<main class="container">
+    <div class="assistant-page">
+        <aside>
+            <button class="btn block" type="button" data-new-chat>+ New chat</button>
+            <h4 style="margin:18px 0 8px;font-size:.8rem;text-transform:uppercase;color:var(--ink-3)">Recent</h4>
+            <div class="sessions">
+                <a href="#" th:each="s : ${sessions}" th:data-session="${s.id}" th:text="${s.title}">Chat</a>
+                <p class="muted" th:if="${sessions.isEmpty()}" style="font-size:.85rem">Your chats will appear here.</p>
+            </div>
+            <div class="card flat" style="margin-top:18px;font-size:.84rem">
+                <b>Try asking</b>
+                <ul style="padding-left:18px;margin:6px 0 0">
+                    <li>Gaming PC under 1 lakh for 1080p</li>
+                    <li>Intel + NVIDIA build for 1.5 lakh</li>
+                    <li>I own a Ryzen 5 7600, build around it for 1.2 lakh</li>
+                    <li>amar 60 hajar takar office pc lagbe</li>
+                </ul>
+                <p class="muted" style="margin:8px 0 0">Mode: <b th:text="${aiMode}">local</b></p>
+            </div>
+        </aside>
+        <section class="chat-shell" data-chat-page>
+            <div class="chat-head"><span class="dot" th:classappend="${aiMode == 'degraded'} ? 'off'"></span><b>EZBuild Assistant</b><small style="margin-left:auto;color:#9fb0c2">Only in-stock parts · prices in ৳</small></div>
+            <div class="chat-log" data-chat-log></div>
+            <div class="chat-suggest" data-chat-suggest></div>
+            <form class="chat-form" data-chat-form><input type="text" maxlength="500" placeholder="Describe the PC you want, or your budget…" aria-label="Message" required th:value="${prefill}"><button class="btn sky" type="submit">Send</button></form>
+        </section>
+    </div>
+</main>
+<th:block th:replace="~{fragments/layout :: overlays}"></th:block>
+</body>
+</html>

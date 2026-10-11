@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('Invoice ' + ${order.code})}"></head>
+<body>
+<main class="container page" style="max-width:820px">
+    <div class="no-print" style="display:flex;gap:8px;margin-bottom:16px"><a class="btn ghost sm" th:href="@{/orders/{c}(c=${order.code})}">← Back</a><button class="btn sm" type="button" data-print>Print / Save PDF</button></div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div class="logo"><img class="brand-logo" th:src="@{/media/ui/logo.png}" th:srcset="@{/media/ui/logo@2x.png} + ' 2x'" alt="EZBuild" width="143" height="44"></div>
+        <div style="text-align:right"><h2 style="margin:0">Invoice</h2><div th:text="${order.code}"></div><small class="muted" th:text="${@fmt.dateTime(order.createdAt)}"></small></div>
+    </div>
+    <hr>
+    <div class="grid-2">
+        <div><b>Bill / ship to</b><br><span th:text="${order.shipping.fullName}"></span><br><span th:text="${order.shipping.phone}"></span><br><span th:text="${order.shipping.oneLine()}"></span></div>
+        <div style="text-align:right"><b>Payment</b><br><span th:text="${order.paymentMethod.label}"></span><br><span th:text="${order.paymentStatus.label}"></span></div>
+    </div>
+    <table class="table" style="margin-top:20px">
+        <thead><tr><th>Item</th><th>SKU</th><th>Qty</th><th style="text-align:right">Unit</th><th style="text-align:right">Total</th></tr></thead>
+        <tbody><tr th:each="i : ${order.items}"><td th:text="${i.name}"></td><td th:text="${i.productId}"></td><td th:text="${i.qty}"></td><td style="text-align:right" th:text="${@fmt.tk(i.unitPrice)}"></td><td style="text-align:right" th:text="${@fmt.tk(i.lineTotal())}"></td></tr></tbody>
+    </table>
+    <div style="max-width:320px;margin-left:auto;margin-top:16px">
+        <div class="sum-row"><span>Subtotal</span><span th:text="${@fmt.tk(order.subtotal)}"></span></div>
+        <div class="sum-row"><span>Shipping</span><span th:text="${@fmt.tk(order.shippingFee)}"></span></div>
+        <div class="sum-row" th:if="${order.codFee > 0}"><span>COD fee</span><span th:text="${@fmt.tk(order.codFee)}"></span></div>
+        <div class="sum-row total"><span>Total</span><span th:text="${@fmt.tk(order.total)}"></span></div>
+    </div>
+    <p class="muted" style="margin-top:30px;font-size:.85rem">Thank you for shopping with EZBuild. Warranty is provided by each brand's official distributor in Bangladesh.</p>
+</main>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

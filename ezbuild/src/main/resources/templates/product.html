@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head(${product.name})}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: header}"></th:block>
+<th:block th:replace="~{fragments/layout :: flash}"></th:block>
+<main class="container">
+    <div class="breadcrumb"><a th:href="@{/}">Home</a> / <a th:href="@{/products(category=${product.category.slug()})}" th:text="${product.category.label}">Cat</a> / <span th:text="${product.name}"></span></div>
+    <div class="pdp">
+        <div class="gallery">
+            <span class="discount-tag" th:if="${product.onSale()}" th:text="'-' + ${product.activeDiscount()} + '%'"></span>
+            <img th:with="imgUrl=${@media.product(product.id, product.category)}" th:src="${imgUrl}" th:data-fallback="|/media/c/${product.category.slug()}.svg|" th:alt="${product.name}">
+        </div>
+        <div>
+            <span class="pill" th:text="${product.brand}">Brand</span>
+            <span class="pill" th:text="'SKU ' + ${product.id}">SKU</span>
+            <h1 style="margin-top:12px" th:text="${product.name}">Name</h1>
+            <div th:if="${product.ratingCount > 0}"><span class="stars" th:text="${@fmt.stars(product.ratingAvg)}">★★★★</span> <small th:text="${product.ratingAvg} + ' · ' + ${product.ratingCount} + ' reviews'"></small></div>
+            <p class="muted" th:text="${product.summary}" style="margin-top:8px">Summary</p>
+            <div class="price-box">
+                <span class="price" th:text="${@fmt.tk(product.effectivePrice())}">৳0</span>
+                <span class="price-old" th:if="${product.onSale()}" th:text="${@fmt.tk(product.price)}">৳0</span>
+                <span class="pill sky" th:if="${product.onSale()}" th:text="'Save ' + ${@fmt.tk(product.price - product.effectivePrice())}">Save</span>
+            </div>
+            <p>
+                <span class="pill ok" th:if="${product.inStock() && !product.lowStock()}">In stock</span>
+                <span class="pill warn" th:if="${product.lowStock()}" th:text="'Only ' + ${product.stock} + ' left'"></span>
+                <span class="pill bad" th:if="${!product.inStock()}">Out of stock</span>
+                <small class="muted" th:if="${product.priceStatus == 'approx'}"> · Reference price</small>
+            </p>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:18px 0">
+                <div class="qty" data-qty><button type="button" data-dec aria-label="Less">−</button><input type="number" value="1" min="1" max="10" aria-label="Quantity"><button type="button" data-inc aria-label="More">+</button></div>
+                <button class="btn sky lg" type="button" th:data-add="${product.id}" th:disabled="${!product.inStock()}">Add to cart</button>
+                <button class="btn ghost lg" type="button" th:data-wish="${product.id}" th:text="${inWishlist} ? '♥ Saved' : '♡ Wishlist'">♡ Wishlist</button>
+                <a class="btn ghost lg" th:href="@{/compare(ids=${product.id})}" th:data-compare="${product.id}">Compare</a>
+            </div>
+            <div class="card flat" th:if="${product.category.buildPart}">
+                <b>Not sure it fits?</b> <span class="muted">Open it in the builder for a live compatibility check, or ask the assistant to build around it.</span>
+                <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap"><a class="btn sm" th:href="@{/builder(ids=${product.id})}">Open in builder</a><a class="btn sm ghost" th:href="@{/assistant(q=${'Build a PC around ' + product.name})}">Ask the assistant</a></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="two-col" style="padding-bottom:40px">
+        <div>
+            <h2>Specifications</h2>
+            <table class="specs">
+                <tr><th>Brand</th><td th:text="${product.brand}"></td></tr>
+                <tr><th>Category</th><td th:text="${product.category.label}"></td></tr>
+                <tr th:each="s : ${product.specs}"><th th:text="${@fmt.specLabel(s.key)}">Key</th><td th:text="${s.value == true ? 'Yes' : (s.value == false ? 'No' : s.value)}">Value</td></tr>
+            </table>
+            <p style="margin-top:16px" th:text="${product.description}"></p>
+
+            <h2 id="reviews" style="margin-top:30px">Reviews</h2>
+            <div th:if="${reviews.isEmpty()}" class="muted">No reviews yet.</div>
+            <div class="review" th:each="r : ${reviews}">
+                <span class="stars" th:text="${#strings.repeat('★', r.rating)}">★★★★★</span>
+                <b th:text="${r.title}">Title</b> <span class="pill ok" th:if="${r.verifiedPurchase}">Verified purchase</span>
+                <p style="margin:6px 0" th:text="${r.comment}"></p>
+                <small th:text="${r.username} + ' · ' + ${@fmt.date(r.createdAt)}"></small>
+            </div>
+        </div>
+        <aside>
+            <div class="card" th:if="${me != null}">
+                <h3>Write a review</h3>
+                <form th:action="@{/products/{id}/reviews(id=${product.id})}" th:object="${review}" method="post">
+                    <div class="field"><label for="rating">Rating</label>
+                        <select id="rating" th:field="*{rating}"><option th:each="i : ${#numbers.sequence(5,1,-1)}" th:value="${i}" th:text="${i} + ' stars'"></option></select></div>
+                    <div class="field" th:classappend="${#fields.hasErrors('title')} ? 'has-error'"><label for="title">Title</label><input id="title" type="text" th:field="*{title}" maxlength="80"><div class="field-error" th:errors="*{title}"></div></div>
+                    <div class="field"><label for="comment">Comment</label><textarea id="comment" th:field="*{comment}" maxlength="1000"></textarea></div>
+                    <button class="btn block" type="submit">Post review</button>
+                </form>
+            </div>
+            <div class="card" th:if="${me == null}"><a class="link" th:href="@{/sign-in}">Sign in</a> to write a review.</div>
+        </aside>
+    </div>
+
+    <section th:if="${!related.isEmpty()}" style="padding-bottom:30px">
+        <h2>Similar options</h2>
+        <div class="grid"><th:block th:each="p : ${related}"><th:block th:replace="~{fragments/layout :: card(${p})}"></th:block></th:block></div>
+    </section>
+</main>
+<th:block th:replace="~{fragments/layout :: footer}"></th:block>
+<th:block th:replace="~{fragments/layout :: overlays}"></th:block>
+</body>
+</html>

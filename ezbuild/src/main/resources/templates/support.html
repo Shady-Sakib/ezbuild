@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('Support')}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: header}"></th:block>
+<th:block th:replace="~{fragments/layout :: flash}"></th:block>
+<main class="container page" style="max-width:720px">
+    <h1>Support</h1>
+    <p class="muted">Questions about an order, warranty or compatibility? Send us a message.</p>
+    <form class="card" th:action="@{/support}" th:object="${ticket}" method="post">
+        <div class="grid-2">
+            <div class="field" th:classappend="${#fields.hasErrors('name')} ? 'has-error'"><label for="n">Name</label><input id="n" type="text" th:field="*{name}"><div class="field-error" th:errors="*{name}"></div></div>
+            <div class="field" th:classappend="${#fields.hasErrors('email')} ? 'has-error'"><label for="e">Email</label><input id="e" type="email" th:field="*{email}"><div class="field-error" th:errors="*{email}"></div></div>
+        </div>
+        <div class="grid-2">
+            <div class="field"><label for="o">Order code (optional)</label><input id="o" type="text" th:field="*{orderCode}"></div>
+            <div class="field" th:classappend="${#fields.hasErrors('subject')} ? 'has-error'"><label for="s">Subject</label><input id="s" type="text" th:field="*{subject}"><div class="field-error" th:errors="*{subject}"></div></div>
+        </div>
+        <div class="field" th:classappend="${#fields.hasErrors('message')} ? 'has-error'"><label for="m">Message</label><textarea id="m" th:field="*{message}"></textarea><div class="field-error" th:errors="*{message}"></div></div>
+        <button class="btn" type="submit">Send</button>
+    </form>
+</main>
+<th:block th:replace="~{fragments/layout :: footer}"></th:block>
+<th:block th:replace="~{fragments/layout :: overlays}"></th:block>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('Demo payment')}"></head>
+<body>
+<main class="auth">
+    <div class="card" style="text-align:center">
+        <span class="pill warn">Offline demo gateway</span>
+        <h2 style="margin-top:12px">Pay <span th:text="${@fmt.tk(payment.amountBdt)}"></span></h2>
+        <p class="muted" th:text="'Order ' + ${payment.orderCode} + ' · ' + ${payment.tranId}"></p>
+        <p class="muted" style="font-size:.86rem">No card details are collected. Choose an outcome to test the order flow without SSLCommerz or Stripe keys.</p>
+        <div class="grid-2">
+            <form th:action="@{/payment/sandbox/{t}(t=${payment.tranId})}" method="post"><input type="hidden" name="approve" value="false"><button class="btn ghost block" type="submit">Decline</button></form>
+            <form th:action="@{/payment/sandbox/{t}(t=${payment.tranId})}" method="post"><input type="hidden" name="approve" value="true"><button class="btn sky block" type="submit">Approve</button></form>
+        </div>
+    </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('Order ' + ${order.code})}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: header}"></th:block>
+<th:block th:replace="~{fragments/layout :: flash}"></th:block>
+<main class="container page">
+    <!-- Payment results arrive as ?pay=... (no session flash on cross-site POSTs) -->
+    <div th:switch="${pay}">
+        <div class="flash success" th:case="'success'">Payment received. Thank you! A confirmation email is on its way.</div>
+        <div class="flash warning" th:case="'review'">Your payment is being reviewed by the bank. We'll confirm shortly.</div>
+        <div class="flash warning" th:case="'pending'">We're confirming your payment with the gateway. Refresh in a minute.</div>
+        <div class="flash error" th:case="'failed'">The payment did not go through. You can try again below.</div>
+        <div class="flash error" th:case="'cancelled'">Payment cancelled. Your items stay reserved for a little while, so you can retry.</div>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:12px">
+        <div>
+            <h1 style="margin:0" th:text="'Order ' + ${order.code}">Order</h1>
+            <small class="muted" th:text="'Placed ' + ${@fmt.dateTime(order.createdAt)}"></small>
+        </div>
+        <div style="display:flex;gap:8px">
+            <span class="pill" th:classappend="${order.status.badge()}" th:text="${order.status.label}"></span>
+            <span class="pill" th:text="${order.paymentStatus.label}"></span>
+        </div>
+    </div>
+
+    <div class="two-col" style="margin-top:18px">
+        <div>
+            <div class="card" th:if="${order.payable()}" style="margin-bottom:16px;border-color:var(--sky)">
+                <h3>Complete your payment</h3>
+                <p class="muted" th:if="${order.expiresAt != null}" th:text="'Items are reserved until ' + ${@fmt.dateTime(order.expiresAt)} + '.'"></p>
+                <form th:action="@{/orders/{c}/pay(c=${order.code})}" method="post" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+                    <select name="method" style="width:auto">
+                        <option th:each="m : ${digitalMethods}" th:value="${m}" th:text="${m.label}" th:selected="${m == order.paymentMethod}"></option>
+                    </select>
+                    <button class="btn sky" type="submit">Pay <span th:text="${@fmt.tk(order.total)}"></span></button>
+                </form>
+            </div>
+            <div class="card">
+                <h3>Items</h3>
+                <div class="line" style="grid-template-columns:56px 1fr auto" th:each="i : ${order.items}">
+                    <img th:src="@{/media/p/{id}.webp(id=${i.productId})}" alt="" style="width:56px;height:56px" data-fallback="/media/c/part.svg">
+                    <div><a th:href="@{/products/{id}(id=${i.productId})}" th:text="${i.name}"></a><br>
+                        <small class="muted"><span th:text="${@fmt.tk(i.unitPrice)} + ' × ' + ${i.qty}"></span><span th:if="${i.discountPercent > 0}" th:text="' (' + ${i.discountPercent} + '% off ' + ${@fmt.tk(i.unitListPrice)} + ')'"></span></small></div>
+                    <b th:text="${@fmt.tk(i.lineTotal())}"></b>
+                </div>
+            </div>
+            <div class="card" style="margin-top:16px">
+                <h3>Timeline</h3>
+                <div th:each="h : ${order.history}" style="display:flex;gap:12px;padding:6px 0;border-bottom:1px solid var(--line-2)">
+                    <span class="pill" th:classappend="${h.status.badge()}" th:text="${h.status.label}"></span>
+                    <span th:text="${h.note}"></span>
+                    <small class="muted" style="margin-left:auto" th:text="${@fmt.dateTime(h.at)}"></small>
+                </div>
+            </div>
+        </div>
+        <aside class="card summary">
+            <h3>Summary</h3>
+            <div class="row"><span>Subtotal</span><span th:text="${@fmt.tk(order.subtotal)}"></span></div>
+            <div class="row" th:if="${order.discountTotal > 0}"><span>Discounts</span><span style="color:var(--ok)" th:text="'−' + ${@fmt.tk(order.discountTotal)}"></span></div>
+            <div class="row"><span th:text="'Shipping (' + ${order.shippingZone.label} + ')'"></span><span th:text="${@fmt.tk(order.shippingFee)}"></span></div>
+            <div class="row" th:if="${order.codFee > 0}"><span>COD fee</span><span th:text="${@fmt.tk(order.codFee)}"></span></div>
+            <div class="row total"><span>Total</span><span th:text="${@fmt.tk(order.total)}"></span></div>
+            <hr>
+            <b>Deliver to</b>
+            <p style="margin:4px 0 0" th:text="${order.shipping.fullName} + ' · ' + ${order.shipping.phone}"></p>
+            <p class="muted" th:text="${order.shipping.oneLine()}"></p>
+            <b>Payment</b>
+            <p class="muted" th:text="${order.paymentMethod.label}"></p>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <a class="btn ghost sm" th:href="@{/orders/{c}/invoice(c=${order.code})}">Invoice</a>
+                <form th:if="${order.status.name() == 'PENDING_PAYMENT' || order.status.name() == 'PLACED'}" th:action="@{/orders/{c}/cancel(c=${order.code})}" method="post" data-confirm="Cancel this order?">
+                    <button class="btn danger sm" type="submit">Cancel order</button>
+                </form>
+            </div>
+        </aside>
+    </div>
+</main>
+<th:block th:replace="~{fragments/layout :: footer}"></th:block>
+<th:block th:replace="~{fragments/layout :: overlays}"></th:block>
+</body>
+</html>

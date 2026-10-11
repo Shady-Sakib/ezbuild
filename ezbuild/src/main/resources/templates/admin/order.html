@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<head th:replace="~{fragments/layout :: head('Order ' + ${order.code})}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: header}"></th:block>
+<th:block th:replace="~{fragments/layout :: flash}"></th:block>
+<main class="container admin">
+    <nav th:replace="~{fragments/admin :: nav('orders')}"></nav>
+    <section>
+        <div class="section-head">
+            <div><h1 style="margin:0" th:text="${order.code}"></h1><small class="muted" th:text="${order.username} + ' · ' + ${order.email} + ' · ' + ${@fmt.dateTime(order.createdAt)}"></small></div>
+            <div><span class="pill" th:classappend="${order.status.badge()}" th:text="${order.status.label}"></span> <span class="pill" th:text="${order.paymentStatus.label}"></span></div>
+        </div>
+        <div class="flash warning" th:if="${order.needsAttention}">This order needs attention (risk hold or payment after expiry). Review the payments below.</div>
+        <div class="two-col">
+            <div>
+                <div class="card">
+                    <table class="table">
+                        <thead><tr><th>Item</th><th>Qty</th><th>Unit</th><th style="text-align:right">Total</th></tr></thead>
+                        <tbody><tr th:each="i : ${order.items}"><td><span th:text="${i.name}"></span><br><code th:text="${i.productId}"></code></td><td th:text="${i.qty}"></td><td th:text="${@fmt.tk(i.unitPrice)}"></td><td style="text-align:right" th:text="${@fmt.tk(i.lineTotal())}"></td></tr></tbody>
+                    </table>
+                    <div style="max-width:300px;margin-left:auto;margin-top:12px">
+                        <div class="sum-row"><span>Subtotal</span><span th:text="${@fmt.tk(order.subtotal)}"></span></div>
+                        <div class="sum-row"><span>Shipping</span><span th:text="${@fmt.tk(order.shippingFee)}"></span></div>
+                        <div class="sum-row"><span>COD fee</span><span th:text="${@fmt.tk(order.codFee)}"></span></div>
+                        <div class="sum-row total"><span>Total</span><span th:text="${@fmt.tk(order.total)}"></span></div>
+                    </div>
+                </div>
+                <div class="card" style="margin-top:16px">
+                    <h3>Payments</h3>
+                    <p class="muted" th:if="${payments.isEmpty()}">No payment attempts (cash on delivery or not started).</p>
+                    <div class="table-wrap" th:if="${!payments.isEmpty()}">
+                        <table class="table">
+                            <thead><tr><th>Tran ID</th><th>Provider</th><th>Status</th><th>Amount</th><th>Ref</th></tr></thead>
+                            <tbody><tr th:each="p : ${payments}"><td><code th:text="${p.tranId}"></code></td><td th:text="${p.provider.name()}"></td><td><span class="pill" th:text="${p.status.label}"></span><br><small class="muted" th:text="${p.failureReason}"></small></td><td th:text="${@fmt.tk(p.amountBdt)} + (${p.chargedCurrency == 'usd'} ? ' ($' + ${p.chargedAmount / 100.0} + ')' : '')"></td><td><small th:text="${p.bankTranId != null ? p.bankTranId : p.providerRef}"></small></td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card" style="margin-top:16px">
+                    <h3>History</h3>
+                    <div th:each="h : ${order.history}" style="display:flex;gap:10px;padding:6px 0;border-bottom:1px solid var(--line-2)"><span class="pill" th:text="${h.status.label}"></span><span th:text="${h.note}"></span><small class="muted" style="margin-left:auto" th:text="${h.by} + ' · ' + ${@fmt.dateTime(h.at)}"></small></div>
+                </div>
+            </div>
+            <aside>
+                <div class="card">
+                    <h3>Update status</h3>
+                    <form th:action="@{/admin/orders/{c}/status(c=${order.code})}" method="post" th:if="${!order.status.next().isEmpty()}">
+                        <div class="field"><select name="status"><option th:each="s : ${order.status.next()}" th:if="${s.name() != 'REFUNDED'}" th:value="${s}" th:text="${s.label}"></option></select></div>
+                        <div class="field"><input type="text" name="note" placeholder="Note (optional)"></div>
+                        <button class="btn block" type="submit">Update</button>
+                    </form>
+                    <p class="muted" th:if="${order.status.next().isEmpty()}">This order is closed.</p>
+                </div>
+                <div class="card" style="margin-top:16px" sec:authorize="hasAuthority('ORDER_REFUND')" th:if="${order.status.refundable()}">
+                    <h3>Refund</h3>
+                    <p class="muted" style="font-size:.86rem">Refunds the full total through the original gateway (COD: mark as refunded) and returns the items to stock.</p>
+                    <form th:action="@{/admin/orders/{c}/refund(c=${order.code})}" method="post" data-confirm="Refund this order?">
+                        <div class="field"><input type="text" name="reason" placeholder="Reason"></div>
+                        <button class="btn danger block" type="submit">Refund order</button>
+                    </form>
+                </div>
+                <div class="card" style="margin-top:16px">
+                    <h3>Delivery</h3>
+                    <p style="margin:0" th:text="${order.shipping.fullName} + ' · ' + ${order.shipping.phone}"></p>
+                    <p class="muted" th:text="${order.shipping.oneLine()}"></p>
+                    <span class="pill" th:text="${order.shippingZone.label}"></span>
+                    <p class="muted" th:if="${order.note}" th:text="'Note: ' + ${order.note}" style="margin-top:8px"></p>
+                    <a class="btn ghost sm" style="margin-top:8px" th:href="@{/orders/{c}/invoice(c=${order.code})}">Invoice</a>
+                </div>
+            </aside>
+        </div>
+    </section>
+</main>
+<th:block th:replace="~{fragments/layout :: overlays}"></th:block>
+</body>
+</html>

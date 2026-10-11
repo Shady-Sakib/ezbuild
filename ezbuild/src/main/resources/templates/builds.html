@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('Saved builds')}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: header}"></th:block>
+<th:block th:replace="~{fragments/layout :: flash}"></th:block>
+<main class="container page">
+    <div class="section-head"><h1>Saved builds</h1><a class="btn" th:href="@{/builder}">New build</a></div>
+    <div class="empty" th:if="${builds.isEmpty()}"><h3>No saved builds yet</h3><p>Save one from the builder or from an AI suggestion.</p></div>
+    <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(320px,1fr))">
+        <div class="card" th:each="b : ${builds}">
+            <div style="display:flex;justify-content:space-between;align-items:center"><h3 style="margin:0" th:text="${b.name}">Build</h3><span class="pill" th:classappend="${b.source.name() == 'AI'} ? 'sky'" th:text="${b.source.label}"></span></div>
+            <small class="muted" th:text="${@fmt.dateTime(b.createdAt)}"></small>
+            <div style="margin:10px 0">
+                <div th:each="part : ${b.parts}" style="display:flex;justify-content:space-between;font-size:.86rem;padding:3px 0"><span th:text="${part.nameSnap}"></span><span class="muted" th:text="${@fmt.tk(part.priceSnap)}"></span></div>
+            </div>
+            <div class="sum-row total"><span>Total when saved</span><span th:text="${@fmt.tk(b.total)}"></span></div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">
+                <form th:action="@{/builds/{id}/cart(id=${b.id})}" method="post"><button class="btn sky sm" type="submit">Add to cart</button></form>
+                <a class="btn ghost sm" th:href="@{/b/{c}(c=${b.shareCode})}">Open</a>
+                <button class="btn ghost sm" type="button" th:data-copy="${'/b/' + b.shareCode}">Share link</button>
+                <form th:action="@{/builds/{id}/delete(id=${b.id})}" method="post" data-confirm="Delete this build?"><button class="btn danger sm" type="submit">Delete</button></form>
+            </div>
+        </div>
+    </div>
+</main>
+<th:block th:replace="~{fragments/layout :: footer}"></th:block>
+<th:block th:replace="~{fragments/layout :: overlays}"></th:block>
+</body>
+</html>

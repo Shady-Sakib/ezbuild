@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('My orders')}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: header}"></th:block>
+<th:block th:replace="~{fragments/layout :: flash}"></th:block>
+<main class="container page">
+    <h1>My orders</h1>
+    <div class="empty" th:if="${orders.isEmpty()}"><h3>No orders yet</h3><a class="btn" th:href="@{/products}">Start shopping</a></div>
+    <div class="table-wrap" th:if="${!orders.isEmpty()}">
+        <table class="table">
+            <thead><tr><th>Order</th><th>Date</th><th>Items</th><th>Payment</th><th>Status</th><th style="text-align:right">Total</th></tr></thead>
+            <tbody>
+            <tr th:each="o : ${orders}">
+                <td><a class="link" th:href="@{/orders/{c}(c=${o.code})}" th:text="${o.code}"></a></td>
+                <td th:text="${@fmt.dateTime(o.createdAt)}"></td>
+                <td th:text="${o.itemCount()}"></td>
+                <td><span th:text="${o.paymentMethod.label}"></span><br><small class="muted" th:text="${o.paymentStatus.label}"></small></td>
+                <td><span class="pill" th:classappend="${o.status.badge()}" th:text="${o.status.label}"></span></td>
+                <td style="text-align:right"><b th:text="${@fmt.tk(o.total)}"></b></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+<th:block th:replace="~{fragments/layout :: footer}"></th:block>
+<th:block th:replace="~{fragments/layout :: overlays}"></th:block>
+</body>
+</html>

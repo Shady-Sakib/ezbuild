@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('Privacy')}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: header}"></th:block>
+<main class="container page" style="max-width:760px">
+    <h1>Privacy</h1>
+    <p>EZBuild stores your account details, delivery addresses, orders, saved builds and assistant chats so the store works across your devices.</p>
+    <p>Passwords are stored as BCrypt hashes. Card and mobile-wallet details are entered only on SSLCommerz's or Stripe's hosted pages; they never reach our servers.</p>
+    <p>Messages you send to the AI assistant are processed by Google Gemini to understand your request. We do not send your email, phone or address to the AI provider.</p>
+    <p>Payments are processed by SSLCommerz and Stripe on their own secure pages; card details never reach our servers.</p>
+</main>
+<th:block th:replace="~{fragments/layout :: footer}"></th:block>
+<th:block th:replace="~{fragments/layout :: overlays}"></th:block>
+</body>
+</html>

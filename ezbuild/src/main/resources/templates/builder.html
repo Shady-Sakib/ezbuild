@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('PC Builder')}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: header}"></th:block>
+<th:block th:replace="~{fragments/layout :: flash}"></th:block>
+<main class="container">
+    <div class="builder">
+        <section>
+            <h1 style="margin-bottom:4px">PC Builder</h1>
+            <p class="muted">Pick a part for each slot. Compatibility, wattage and total update live as you choose.</p>
+            <div id="slots">
+                <div class="slot" th:each="entry : ${options}" th:data-slot="${entry.key.name()}">
+                    <img th:src="@{/media/c/{s}.svg(s=${entry.key.slug()})}" th:data-placeholder="|/media/c/${entry.key.slug()}.svg|" alt="">
+                    <div><div class="cat-name" th:text="${entry.key.label}">CPU</div><small class="muted" data-slot-price>Not selected</small></div>
+                    <select th:aria-label="${entry.key.label}" data-part>
+                        <option value="">— Choose —</option>
+                        <option th:each="p : ${entry.value}" th:value="${p.id}" th:text="${p.name} + ' — ' + ${@fmt.tk(p.effectivePrice())} + (${p.inStock()} ? '' : ' (out of stock)')"
+                                th:data-price="${p.effectivePrice()}" th:data-socket="${p.spec('socket')}" th:data-ram="${p.spec('ram') != null ? p.spec('ram') : p.spec('type')}"
+                                th:selected="${selected.contains(p.id)}"></option>
+                    </select>
+                    <a class="link" href="#" data-clear style="font-size:.84rem">Clear</a>
+                </div>
+            </div>
+            <label class="check" style="margin-top:8px"><input type="checkbox" data-compatible-only checked> Only show parts that fit what I've picked</label>
+        </section>
+        <aside>
+            <div class="card summary">
+                <h3>Your build</h3>
+                <div class="sum-row"><span>Parts</span><span data-count>0</span></div>
+                <div class="sum-row"><span>Estimated power draw</span><span data-watt>—</span></div>
+                <div class="sum-row total"><span>Total</span><span data-total th:text="${@fmt.tk(plan.total())}">৳0</span></div>
+                <div class="compat ok" data-compat>Pick parts to start the compatibility check.</div>
+                <div style="display:grid;gap:8px;margin-top:14px">
+                    <button class="btn sky block" type="button" data-build-cart>Add all to cart</button>
+                    <form th:action="@{/builds}" method="post" data-save-form style="display:flex;gap:6px">
+                        <input type="hidden" name="ids" data-ids>
+                        <input type="text" name="name" placeholder="Build name" maxlength="60" aria-label="Build name">
+                        <button class="btn ghost" type="submit">Save</button>
+                    </form>
+                    <button class="btn ghost block" type="button" data-share>Copy share link</button>
+                </div>
+            </div>
+        </aside>
+    </div>
+</main>
+<th:block th:replace="~{fragments/layout :: footer}"></th:block>
+<th:block th:replace="~{fragments/layout :: overlays}"></th:block>
+<script th:src="@{/js/builder.js}"></script>
+</body>
+</html>

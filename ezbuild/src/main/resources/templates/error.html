@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <link rel="icon" type="image/png" sizes="32x32" href="/media/ui/favicon-32.png">
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Something went wrong · EZBuild</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<main class="auth">
+    <div class="card" style="text-align:center">
+        <div class="logo" style="justify-content:center"><img class="brand-logo" th:src="@{/media/ui/logo.png}" th:srcset="@{/media/ui/logo@2x.png} + ' 2x'" alt="EZBuild" width="143" height="44"></div>
+        <h1 style="font-size:3rem;margin:18px 0 0" th:text="${status != null ? status : 'Oops'}">404</h1>
+        <p class="muted" th:switch="${status}">
+            <span th:case="404" th:text="${message != null && message != 'No message available' ? message : 'We couldn''t find that page.'}">Not found</span>
+            <span th:case="403">You don't have permission to open this page.</span>
+            <span th:case="*">Something went wrong on our side. Please try again.</span>
+        </p>
+        <a class="btn" th:href="@{/}">Back to the shop</a>
+    </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('Checkout')}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: header}"></th:block>
+<th:block th:replace="~{fragments/layout :: flash}"></th:block>
+<main class="container page">
+    <div class="steps"><span>1 Cart</span><span class="on">2 Delivery &amp; payment</span><span>3 Done</span></div>
+    <h1>Checkout</h1>
+    <form th:action="@{/checkout}" th:object="${form}" method="post" id="checkout-form"
+          th:data-subtotal="${cart.subtotal()}" th:data-inside="${insideFee}" th:data-outside="${outsideFee}" th:data-cod="${codFee}" th:data-sslmax="${sslMax}">
+        <div class="two-col">
+            <div>
+                <div class="card" style="margin-bottom:16px">
+                    <h3>Delivery address</h3>
+                    <div class="chips" th:if="${me.addresses.size() > 0}" style="margin-bottom:12px">
+                        <button type="button" class="chip plain" th:each="a, st : ${me.addresses}" th:data-address="${st.index}" th:data-name="${a.fullName}" th:data-phone="${a.phone}" th:data-line1="${a.line1}" th:data-area="${a.area}" th:data-city="${a.city}" th:data-postcode="${a.postcode}" th:data-zone="${a.zone}" th:text="${a.city} + ' · ' + ${a.line1}">Saved</button>
+                    </div>
+                    <div class="grid-2">
+                        <div class="field" th:classappend="${#fields.hasErrors('address.fullName')} ? 'has-error'"><label for="fn">Full name</label><input id="fn" type="text" th:field="*{address.fullName}" autocomplete="name"><div class="field-error" th:errors="*{address.fullName}"></div></div>
+                        <div class="field" th:classappend="${#fields.hasErrors('address.phone')} ? 'has-error'"><label for="ph">Mobile number</label><input id="ph" type="tel" th:field="*{address.phone}" placeholder="01XXXXXXXXX" autocomplete="tel"><div class="field-error" th:errors="*{address.phone}"></div></div>
+                    </div>
+                    <div class="field" th:classappend="${#fields.hasErrors('address.line1')} ? 'has-error'"><label for="l1">Address</label><input id="l1" type="text" th:field="*{address.line1}" placeholder="House, road, block" autocomplete="street-address"><div class="field-error" th:errors="*{address.line1}"></div></div>
+                    <div class="grid-3">
+                        <div class="field"><label for="ar">Area</label><input id="ar" type="text" th:field="*{address.area}"></div>
+                        <div class="field" th:classappend="${#fields.hasErrors('address.city')} ? 'has-error'"><label for="ct">City / district</label><input id="ct" type="text" th:field="*{address.city}"><div class="field-error" th:errors="*{address.city}"></div></div>
+                        <div class="field"><label for="pc">Postcode</label><input id="pc" type="text" th:field="*{address.postcode}"></div>
+                    </div>
+                    <h4 style="margin-top:6px">Delivery zone</h4>
+                    <label class="choice" th:each="z : ${zones}">
+                        <input type="radio" th:field="*{address.zone}" th:value="${z}" data-zone>
+                        <div><div class="t" th:text="${z.label}">Zone</div><div class="s" th:text="${z.name() == 'INSIDE_DHAKA'} ? 'Delivered in 1–2 days' : 'Delivered in 2–5 days by courier'"></div></div>
+                        <span class="fee" th:text="${z.name() == 'INSIDE_DHAKA'} ? ${@fmt.tk(insideFee)} : ${@fmt.tk(outsideFee)}"></span>
+                    </label>
+                    <label class="check" style="margin-top:6px"><input type="checkbox" th:field="*{saveAddress}"> Save this address for next time</label>
+                </div>
+                <div class="card">
+                    <h3>Payment</h3>
+                    <div class="field-error" th:errors="*{paymentMethod}" style="margin-bottom:8px"></div>
+                    <label class="choice" th:each="m : ${paymentMethods}">
+                        <input type="radio" th:field="*{paymentMethod}" th:value="${m}" data-method>
+                        <div>
+                            <div class="t" th:text="${m.label}">Method</div>
+                            <div class="s" th:switch="${m.name()}">
+                                <span th:case="'COD'">Pay cash to the courier. A ৳50 handling fee applies.</span>
+                                <span th:case="'SSLCOMMERZ'">bKash, Nagad, Rocket, Visa, Mastercard, Amex and internet banking on SSLCommerz's secure page.</span>
+                                <span th:case="'STRIPE'">International cards on Stripe's secure page (charged in USD).</span>
+                                <span th:case="*">Offline demo gateway for testing, no real money.</span>
+                            </div>
+                        </div>
+                        <span class="fee" th:if="${m.name() == 'COD'}" th:text="'+' + ${@fmt.tk(codFee)}"></span>
+                    </label>
+                    <label class="choice disabled" th:each="m : ${unconfiguredMethods}" aria-disabled="true">
+                        <input type="radio" disabled>
+                        <div>
+                            <div class="t" th:text="${m.label}">Method</div>
+                            <div class="s" th:text="${m.name() == 'SSLCOMMERZ'} ? 'Not set up yet: add SSLC_STORE_ID and SSLC_STORE_PASS to .env.' : 'Not set up yet: add STRIPE_SECRET_KEY to .env.'"></div>
+                        </div>
+                    </label>
+                    <p class="muted" style="font-size:.84rem" data-ssl-warning hidden>SSLCommerz accepts up to ৳5,00,000 per payment. Choose another method for this order.</p>
+                    <div class="field"><label for="note">Order note (optional)</label><input id="note" type="text" th:field="*{note}" maxlength="200" placeholder="e.g. call before delivery"></div>
+                </div>
+            </div>
+            <aside class="card summary">
+                <h3>Order summary</h3>
+                <div class="line" style="grid-template-columns:44px 1fr auto;padding:8px 0" th:each="l : ${cart.lines()}">
+                    <img th:src="${l.image()}" alt="" style="width:44px;height:44px" data-fallback="/media/c/part.svg">
+                    <span style="font-size:.86rem"><span th:text="${l.name()}"></span> <b th:text="'× ' + ${l.qty()}"></b></span>
+                    <b style="font-size:.9rem" th:text="${@fmt.tk(l.lineTotal())}"></b>
+                </div>
+                <div class="row" style="margin-top:10px"><span>Subtotal</span><span th:text="${@fmt.tk(quote.subtotal())}"></span></div>
+                <div class="row" th:if="${quote.savings() > 0}"><span>Discounts</span><span style="color:var(--ok)" th:text="'−' + ${@fmt.tk(quote.savings())}"></span></div>
+                <div class="row"><span>Shipping</span><span data-ship th:text="${@fmt.tk(quote.shippingFee())}"></span></div>
+                <div class="row" data-cod-row th:style="${quote.codFee() == 0} ? 'display:none' : ''"><span>COD fee</span><span th:text="${@fmt.tk(codFee)}"></span></div>
+                <div class="row total"><span>Total</span><span data-total th:text="${@fmt.tk(quote.total())}"></span></div>
+                <button class="btn sky block lg" style="margin-top:14px" type="submit" data-submit>Place order</button>
+                <p class="muted" style="font-size:.8rem;margin-top:10px">Prices and stock are re-checked when you place the order. Digital payments reserve your items for 30 minutes.</p>
+            </aside>
+        </div>
+    </form>
+</main>
+<th:block th:replace="~{fragments/layout :: footer}"></th:block>
+<th:block th:replace="~{fragments/layout :: overlays}"></th:block>
+<script th:src="@{/js/checkout.js}"></script>
+</body>
+</html>

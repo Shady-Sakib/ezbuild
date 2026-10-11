@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head(${isNew} ? 'New product' : 'Edit product')}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: header}"></th:block>
+<th:block th:replace="~{fragments/layout :: flash}"></th:block>
+<main class="container admin">
+    <nav th:replace="~{fragments/admin :: nav('products')}"></nav>
+    <section>
+        <h1 th:text="${isNew} ? 'New product' : 'Edit ' + ${product.id}">Product</h1>
+        <form th:action="@{/admin/products/save}" th:object="${product}" method="post" enctype="multipart/form-data" class="card">
+            <input type="hidden" name="isNew" th:value="${isNew}">
+            <div class="grid-3">
+                <div class="field" th:classappend="${#fields.hasErrors('id')} ? 'has-error'"><label for="id">SKU (= image name)</label><input id="id" type="text" th:field="*{id}" th:readonly="${!isNew}" placeholder="gpu-14"><div class="field-error" th:errors="*{id}"></div></div>
+                <div class="field"><label for="cat">Category</label><select id="cat" th:field="*{category}"><option th:each="c : ${categories}" th:value="${c}" th:text="${c.label}"></option></select></div>
+                <div class="field" th:classappend="${#fields.hasErrors('brand')} ? 'has-error'"><label for="brand">Brand</label><input id="brand" type="text" th:field="*{brand}"><div class="field-error" th:errors="*{brand}"></div></div>
+            </div>
+            <div class="field" th:classappend="${#fields.hasErrors('name')} ? 'has-error'"><label for="name">Name</label><input id="name" type="text" th:field="*{name}"><div class="field-error" th:errors="*{name}"></div></div>
+            <div class="grid-3">
+                <div class="field" th:classappend="${#fields.hasErrors('price')} ? 'has-error'"><label for="price">List price (৳)</label><input id="price" type="number" min="1" th:field="*{price}"><div class="field-error" th:errors="*{price}"></div></div>
+                <div class="field" th:classappend="${#fields.hasErrors('discountPercent')} ? 'has-error'"><label for="disc">Discount %</label><input id="disc" type="number" min="0" max="90" th:field="*{discountPercent}"><div class="field-error" th:errors="*{discountPercent}"></div></div>
+                <div class="field" th:classappend="${#fields.hasErrors('stock')} ? 'has-error'"><label for="stock">Stock</label><input id="stock" type="number" min="0" th:field="*{stock}"><div class="field-error" th:errors="*{stock}"></div></div>
+            </div>
+            <div class="grid-3">
+                <div class="field"><label for="ds">Discount from</label><input id="ds" type="date" th:field="*{discountStart}"></div>
+                <div class="field"><label for="de">Discount until</label><input id="de" type="date" th:field="*{discountEnd}"></div>
+                <div class="field"><label for="perf">Performance score (CPU/GPU)</label><input id="perf" type="number" min="0" max="100" th:field="*{perfScore}"></div>
+            </div>
+            <div class="field"><label for="sum">Summary</label><input id="sum" type="text" th:field="*{summary}" maxlength="300"></div>
+            <div class="field"><label for="desc">Description</label><textarea id="desc" th:field="*{description}"></textarea></div>
+            <div class="field"><label for="specs">Specs (one key=value per line, used by filters and the compatibility engine)</label>
+                <textarea id="specs" name="specsText" style="font-family:var(--mono);min-height:140px" th:text="${specsText}" placeholder="socket=AM5&#10;tdp=65&#10;igpu=true"></textarea>
+                <small class="muted">CPU: socket, cores, tdp, igpu, ram · Board: socket, ram, form · RAM: type, gb, mhz · GPU: vram, tdp, len, psu · PSU: watt · Case: form, maxgpu, maxcooler · Cooler: type, tdp, height · Storage: iface, gb</small></div>
+            <div class="grid-2">
+                <div class="field"><label for="img">Image (WebP/JPG/PNG, saved as <code th:text="*{id} != null ? *{id} + '.webp' : 'sku.webp'"></code>)</label><input id="img" type="file" name="image" accept="image/webp,image/jpeg,image/png"></div>
+                <div class="field"><label>&nbsp;</label><label class="check"><input type="checkbox" th:field="*{active}"> Visible in the shop</label></div>
+            </div>
+            <div style="display:flex;gap:8px"><button class="btn sky" type="submit">Save</button><a class="btn ghost" th:href="@{/admin/products}">Cancel</a></div>
+        </form>
+    </section>
+</main>
+<th:block th:replace="~{fragments/layout :: overlays}"></th:block>
+</body>
+</html>

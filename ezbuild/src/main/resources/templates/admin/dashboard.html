@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('Admin')}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: header}"></th:block>
+<th:block th:replace="~{fragments/layout :: flash}"></th:block>
+<main class="container admin">
+    <nav th:replace="~{fragments/admin :: nav('dash')}"></nav>
+    <section>
+        <h1>Dashboard</h1>
+        <div class="stats">
+            <div class="stat"><div class="l">Revenue</div><div class="v" th:text="${@fmt.tk(stats.revenue())}"></div></div>
+            <div class="stat"><div class="l">Orders</div><div class="v" th:text="${stats.orders()}"></div></div>
+            <div class="stat"><div class="l">Open orders</div><div class="v" th:text="${stats.pendingOrders()}"></div></div>
+            <div class="stat"><div class="l">Customers</div><div class="v" th:text="${stats.customers()}"></div></div>
+            <div class="stat"><div class="l">Active products</div><div class="v" th:text="${stats.products()}"></div></div>
+            <div class="stat"><div class="l">Low stock (≤3)</div><div class="v" th:text="${stats.lowStock()}"></div></div>
+            <div class="stat"><div class="l">Open tickets</div><div class="v" th:text="${stats.openTickets()}"></div></div>
+            <div class="stat"><div class="l">Needs attention</div><div class="v" th:text="${attention.size()}"></div></div>
+        </div>
+        <div class="grid-2" style="align-items:start">
+            <div class="card">
+                <h3>Revenue, last 14 days</h3>
+                <div class="bars" style="margin-bottom:24px">
+                    <div class="bar" th:each="d : ${stats.sales()}" th:style="'height:' + ${d.revenue() * 100 / stats.maxDailyRevenue()} + '%'" th:title="${d.day()} + ': ' + ${@fmt.tk(d.revenue())} + ' (' + ${d.orders()} + ' orders)'"><span th:text="${d.day().substring(3)}"></span></div>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Top sellers</h3>
+                <p class="muted" th:if="${stats.topSellers().isEmpty()}">No sales yet.</p>
+                <div th:each="t : ${stats.topSellers()}" style="padding:6px 0">
+                    <div style="display:flex;justify-content:space-between;font-size:.88rem"><span th:text="${t.name()}"></span><b th:text="${t.qty()} + ' sold'"></b></div>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Orders by status</h3>
+                <div th:each="s : ${stats.statusCounts()}" style="padding:5px 0">
+                    <div style="display:flex;justify-content:space-between;font-size:.86rem"><span th:text="${s.value()}"></span><b th:text="${s.count()}"></b></div>
+                    <div class="hbar"><i th:style="'width:' + ${s.count() * 100 / (stats.orders() == 0 ? 1 : stats.orders())} + '%'"></i></div>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Payment mix</h3>
+                <div th:each="s : ${stats.paymentMix()}" style="padding:5px 0">
+                    <div style="display:flex;justify-content:space-between;font-size:.86rem"><span th:text="${s.value()}"></span><b th:text="${s.count()}"></b></div>
+                    <div class="hbar"><i th:style="'width:' + ${s.count() * 100 / (stats.orders() == 0 ? 1 : stats.orders())} + '%'"></i></div>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Low stock</h3>
+                <p class="muted" th:if="${lowStock.isEmpty()}">All good.</p>
+                <div th:each="p : ${lowStock}" style="display:flex;justify-content:space-between;padding:5px 0;font-size:.88rem"><a th:href="@{/admin/products/{id}/edit(id=${p.id})}" th:text="${p.name}"></a><span class="pill warn" th:text="${p.stock} + ' left'"></span></div>
+            </div>
+            <div class="card">
+                <h3>Payments needing review</h3>
+                <p class="muted" th:if="${attention.isEmpty()}">Nothing on hold.</p>
+                <div th:each="p : ${attention}" style="display:flex;justify-content:space-between;padding:5px 0;font-size:.88rem"><a th:href="@{/admin/orders/{c}(c=${p.orderCode})}" th:text="${p.orderCode}"></a><span class="pill warn" th:text="${p.status.label}"></span></div>
+            </div>
+        </div>
+    </section>
+</main>
+<th:block th:replace="~{fragments/layout :: overlays}"></th:block>
+</body>
+</html>

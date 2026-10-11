@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('Track order')}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: header}"></th:block>
+<main class="container page" style="max-width:720px">
+    <h1>Track your order</h1>
+    <form class="card" th:action="@{/track}" method="get">
+        <div class="grid-2">
+            <div class="field"><label for="code">Order code</label><input id="code" name="code" type="text" placeholder="EZ7K3P9Q" th:value="${code}" required></div>
+            <div class="field"><label for="phone">Phone used for delivery</label><input id="phone" name="phone" type="tel" placeholder="01XXXXXXXXX" th:value="${phone}" required></div>
+        </div>
+        <button class="btn" type="submit">Track</button>
+    </form>
+    <div class="flash error" th:if="${error}" th:text="${error}"></div>
+    <div class="card" th:if="${order != null}" style="margin-top:16px">
+        <h3 th:text="${order.code}"></h3>
+        <p><span class="pill" th:classappend="${order.status.badge()}" th:text="${order.status.label}"></span> <span class="muted" th:text="${order.itemCount()} + ' items · ' + ${@fmt.tk(order.total)}"></span></p>
+        <div th:each="h : ${order.history}" style="display:flex;gap:12px;padding:6px 0;border-bottom:1px solid var(--line-2)"><b th:text="${h.status.label}"></b><small class="muted" style="margin-left:auto" th:text="${@fmt.dateTime(h.at)}"></small></div>
+    </div>
+</main>
+<th:block th:replace="~{fragments/layout :: footer}"></th:block>
+<th:block th:replace="~{fragments/layout :: overlays}"></th:block>
+</body>
+</html>

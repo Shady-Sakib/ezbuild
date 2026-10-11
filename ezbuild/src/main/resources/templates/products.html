@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head(${category != null ? category.label : 'Shop'})}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: header}"></th:block>
+<th:block th:replace="~{fragments/layout :: flash}"></th:block>
+
+<main class="container">
+    <div class="breadcrumb"><a th:href="@{/}">Home</a> / <a th:href="@{/products}">Shop</a><span th:if="${category != null}" th:text="' / ' + ${category.label}"></span></div>
+    <div class="shop">
+        <!-- Filter sidebar: each change updates the URL and swaps #results without a reload (shop.js) -->
+        <aside class="filters" id="filters">
+            <form id="filter-form" th:action="@{/products}" method="get">
+                <input type="hidden" name="q" th:value="${filter.q()}">
+                <input type="hidden" name="sort" th:value="${filter.sort()}">
+                <div class="fgroup">
+                    <h4>Category</h4>
+                    <div class="opts">
+                        <label class="opt"><input type="radio" name="category" value="" th:checked="${category == null}"> All products</label>
+                        <label class="opt" th:each="c : ${navCategories}"><input type="radio" name="category" th:value="${c.slug()}" th:checked="${category == c}"> <span th:text="${c.label}"></span></label>
+                    </div>
+                </div>
+                <div class="fgroup">
+                    <h4>Price (৳)</h4>
+                    <div class="range" th:data-min="${facets.minPrice()}" th:data-max="${facets.maxPrice()}">
+                        <div class="slider"><div class="track"></div><div class="fill"></div>
+                            <input type="range" data-lo th:min="${facets.minPrice()}" th:max="${facets.maxPrice()}" step="500" th:value="${filter.min() != null ? filter.min() : facets.minPrice()}" aria-label="Minimum price">
+                            <input type="range" data-hi th:min="${facets.minPrice()}" th:max="${facets.maxPrice()}" step="500" th:value="${filter.max() != null ? filter.max() : facets.maxPrice()}" aria-label="Maximum price">
+                        </div>
+                        <div class="row"><input type="number" name="min" placeholder="Min" th:value="${filter.min()}"><input type="number" name="max" placeholder="Max" th:value="${filter.max()}"></div>
+                    </div>
+                </div>
+                <div class="fgroup">
+                    <h4>Availability</h4>
+                    <div class="opts">
+                        <label class="opt"><input type="checkbox" name="inStock" value="1" th:checked="${filter.inStock()}"> In stock only</label>
+                        <label class="opt"><input type="checkbox" name="sale" value="1" th:checked="${filter.sale()}"> On discount</label>
+                    </div>
+                </div>
+                <div class="fgroup" th:if="${!facets.brands().isEmpty()}">
+                    <h4>Brand</h4>
+                    <div class="opts">
+                        <label class="opt" th:each="b : ${facets.brands()}"><input type="checkbox" name="brand" th:value="${b.value()}" th:checked="${filter.brands().contains(b.value())}"> <span th:text="${b.value()}"></span><span class="n" th:text="${b.count()}"></span></label>
+                    </div>
+                </div>
+                <div class="fgroup" th:each="entry : ${facets.specs()}">
+                    <h4 th:text="${@fmt.specLabel(entry.key)}">Spec</h4>
+                    <div class="opts">
+                        <label class="opt" th:each="v : ${entry.value}"><input type="checkbox" th:name="'f.' + ${entry.key}" th:value="${v.value()}" th:checked="${filter.specs().containsKey(entry.key) && filter.specs().get(entry.key).contains(v.value())}"> <span th:text="${v.value() == 'true' ? 'Yes' : (v.value() == 'false' ? 'No' : v.value())}"></span><span class="n" th:text="${v.count()}"></span></label>
+                    </div>
+                </div>
+                <div style="padding-top:14px;display:flex;gap:8px">
+                    <a class="btn ghost sm" th:href="@{/products(category=${category != null ? category.slug() : null})}">Reset</a>
+                    <button class="btn sm filter-toggle" type="button" data-filters-close>Show results</button>
+                    <noscript><button class="btn sm" type="submit">Apply</button></noscript>
+                </div>
+            </form>
+        </aside>
+
+        <section>
+            <div class="toolbar">
+                <div>
+                    <h1 style="margin:0;font-size:1.5rem" th:text="${filter.q() != null && !filter.q().isBlank()} ? 'Results for “' + ${filter.q()} + '”' : (${category != null} ? ${category.label} : 'All products')">Shop</h1>
+                </div>
+                <div style="display:flex;gap:8px;align-items:center">
+                    <button class="btn ghost sm filter-toggle" type="button" data-filters-open>Filters</button>
+                    <label for="sort" class="sr-only">Sort</label>
+                    <select id="sort" data-sort>
+                        <option value="relevance" th:selected="${filter.sort() == 'relevance'}">Most popular</option>
+                        <option value="price_asc" th:selected="${filter.sort() == 'price_asc'}">Price: low to high</option>
+                        <option value="price_desc" th:selected="${filter.sort() == 'price_desc'}">Price: high to low</option>
+                        <option value="newest" th:selected="${filter.sort() == 'newest'}">Newest</option>
+                        <option value="discount" th:selected="${filter.sort() == 'discount'}">Biggest discount</option>
+                    </select>
+                </div>
+            </div>
+            <div class="chips" data-active-chips style="margin-bottom:12px"></div>
+
+            <div id="results" th:fragment="results">
+                <p class="muted" style="margin:0 0 12px;font-size:.88rem"><span th:text="${page.totalElements()}">0</span> products</p>
+                <div class="grid" th:if="${!page.content().isEmpty()}">
+                    <th:block th:each="p : ${page.content()}"><th:block th:replace="~{fragments/layout :: card(${p})}"></th:block></th:block>
+                </div>
+                <div class="empty" th:if="${page.content().isEmpty()}">
+                    <h3>No products match these filters</h3>
+                    <p>Try removing a filter, or ask the AI assistant to suggest alternatives.</p>
+                </div>
+                <nav class="pager" th:if="${page.totalPages() > 1}" aria-label="Pages">
+                    <a th:if="${page.hasPrevious()}" href="#" th:data-page="${page.page() - 1}">‹</a>
+                    <th:block th:each="i : ${#numbers.sequence(0, page.totalPages() - 1)}">
+                        <span class="on" th:if="${i == page.page()}" th:text="${i + 1}">1</span>
+                        <a th:if="${i != page.page()}" href="#" th:data-page="${i}" th:text="${i + 1}">2</a>
+                    </th:block>
+                    <a th:if="${page.hasNext()}" href="#" th:data-page="${page.page() + 1}">›</a>
+                </nav>
+            </div>
+        </section>
+    </div>
+</main>
+
+<th:block th:replace="~{fragments/layout :: footer}"></th:block>
+<th:block th:replace="~{fragments/layout :: overlays}"></th:block>
+<script th:src="@{/js/shop.js}"></script>
+</body>
+</html>

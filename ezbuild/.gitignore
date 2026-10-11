@@ -1,0 +1,9 @@
+target/
+uploads/
+.env
+application-local.properties
+.idea/
+*.iml
+.vscode/
+missing.txt
+creds.txt

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('Members · Admin')}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: header}"></th:block>
+<th:block th:replace="~{fragments/layout :: flash}"></th:block>
+<main class="container admin">
+    <nav th:replace="~{fragments/admin :: nav('members')}"></nav>
+    <section>
+        <h1>Members</h1>
+        <form th:action="@{/admin/members}" method="get" class="toolbar"><div style="display:flex;gap:8px"><input type="search" name="q" th:value="${q}" placeholder="Username or email" style="width:240px"><button class="btn ghost" type="submit">Search</button></div></form>
+        <div class="table-wrap">
+            <table class="table">
+                <thead><tr><th>User</th><th>Joined</th><th>Roles</th><th>Status</th><th></th></tr></thead>
+                <tbody>
+                <tr th:each="m : ${members.content}">
+                    <td><b th:text="${m.username}"></b><br><small class="muted" th:text="${m.email}"></small></td>
+                    <td th:text="${@fmt.date(m.joinedAt)}"></td>
+                    <td>
+                        <form th:action="@{/admin/members/{id}/roles(id=${m.id})}" method="post" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+                            <label class="check" th:each="r : ${roles}" style="font-size:.84rem"><input type="checkbox" name="roles" th:value="${r}" th:checked="${m.roles.contains(r)}"> <span th:text="${r.label}"></span></label>
+                            <button class="btn ghost sm" type="submit">Save</button>
+                        </form>
+                    </td>
+                    <td><span class="pill" th:classappend="${m.suspended} ? 'bad' : 'ok'" th:text="${m.suspended} ? 'Suspended' : 'Active'"></span> <span class="pill warn" th:if="${m.isLocked()}">Locked</span></td>
+                    <td>
+                        <form th:action="@{/admin/members/{id}/suspend(id=${m.id})}" method="post"><input type="hidden" name="suspended" th:value="${!m.suspended}"><button class="btn sm" th:classappend="${m.suspended} ? 'ghost' : 'danger'" type="submit" th:text="${m.suspended} ? 'Restore' : 'Suspend'"></button></form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+<th:block th:replace="~{fragments/layout :: overlays}"></th:block>
+</body>
+</html>

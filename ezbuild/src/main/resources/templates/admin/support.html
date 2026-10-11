@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('Support · Admin')}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: header}"></th:block>
+<th:block th:replace="~{fragments/layout :: flash}"></th:block>
+<main class="container admin">
+    <nav th:replace="~{fragments/admin :: nav('support')}"></nav>
+    <section>
+        <h1>Support tickets</h1>
+        <p class="muted" th:if="${tickets.isEmpty()}">No tickets yet.</p>
+        <div class="card" th:each="t : ${tickets}" style="margin-bottom:12px">
+            <div style="display:flex;justify-content:space-between;gap:10px"><b th:text="${t.subject}"></b><span class="pill" th:text="${t.status.label}"></span></div>
+            <small class="muted" th:text="${t.name} + ' · ' + ${t.email} + (${t.orderCode != null && !t.orderCode.isBlank()} ? ' · ' + ${t.orderCode} : '') + ' · ' + ${@fmt.dateTime(t.createdAt)}"></small>
+            <p style="margin:8px 0;white-space:pre-wrap" th:text="${t.message}"></p>
+            <p class="muted" th:if="${t.reply}" th:text="'Our reply: ' + ${t.reply}"></p>
+            <form th:action="@{/admin/support/{id}/reply(id=${t.id})}" method="post" th:if="${t.status.name() != 'CLOSED'}">
+                <textarea name="reply" placeholder="Write a reply (emailed to the customer)" style="min-height:70px"></textarea>
+                <div style="display:flex;gap:10px;align-items:center;margin-top:8px"><label class="check"><input type="checkbox" name="close" value="true"> Close ticket</label><button class="btn sm" type="submit">Send reply</button></div>
+            </form>
+        </div>
+    </section>
+</main>
+<th:block th:replace="~{fragments/layout :: overlays}"></th:block>
+</body>
+</html>

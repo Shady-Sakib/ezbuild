@@ -1,0 +1,94 @@
+sku,query,image_url
+cpu-01,AMD Ryzen 5 5500,
+cpu-02,AMD Ryzen 5 5600,
+cpu-03,AMD Ryzen 5 5600X,
+cpu-04,AMD Ryzen 7 5700X,
+cpu-05,AMD Ryzen 5 8400F,
+cpu-06,AMD Ryzen 5 7600,
+cpu-07,AMD Ryzen 7 7800X3D,
+cpu-08,AMD Ryzen 7 9700X,
+cpu-09,Intel Core i3-10105,
+cpu-10,Intel Core i5-10400,
+cpu-11,Intel Core i3-12100F,
+cpu-12,Intel Core i5-12400F,
+cpu-13,Intel Core i5-13400F,
+cpu-14,Intel Core i5-14600K,
+cpu-15,Intel Core i7-14700K,
+mb-01,Gigabyte A520M K V2,
+mb-02,MSI B450M-A PRO MAX II,
+mb-03,ASRock B550M-HDV,https://www.startech.com.bd/image/cache/catalog/component/motherboard/asrock/b550-hdv/b550m-01-1200x630.jpg
+mb-04,MSI B550M PRO-VDH WiFi,
+mb-05,Gigabyte B650M K,
+mb-06,MSI PRO B650M-P,
+mb-07,ASUS TUF Gaming B650-PLUS WiFi,
+mb-08,Gigabyte H510M K V2,
+mb-09,MSI PRO H610M-E DDR4,
+mb-10,Gigabyte B760M DS3H DDR4,
+mb-11,MSI PRO B760M-P DDR5,
+mb-12,ASUS TUF Gaming B760M-PLUS WiFi D4,
+mb-13,MSI MAG Z790 TOMAHAWK WiFi,
+ssd-01,Kingston NV2 500GB NVMe,
+ssd-02,Kingston NV2 1TB NVMe,
+ssd-03,Samsung 980 PRO 1TB NVMe,https://www.startech.com.bd/image/cache/catalog/ssd/samsung/980-pro/980-pro-001-1200x630.jpg
+ssd-04,WD Blue SN580 1TB NVMe,
+ssd-05,Crucial P3 Plus 2TB NVMe,https://www.startech.com.bd/image/cache/catalog/ssd/crucial/p3-plus/p3-plus-01-1200x630.webp
+ssd-06,Kingston A400 480GB SATA,
+hdd-01,Seagate BarraCuda 1TB 7200RPM,
+hdd-02,WD Blue 2TB 7200RPM,https://www.startech.com.bd/image/cache/catalog/hdd/western-digital/wd-2tb-blue/wd-2tb-blue-02-1200x630.webp
+psu-01,Corsair CV450 450W 80+ Bronze,https://www.startech.com.bd/image/cache/catalog/power-supply/corsair/cv450/cv450-1200x630.jpg
+psu-02,Cooler Master MWE 550 Bronze V2,
+psu-03,Corsair CX650 650W 80+ Bronze,
+psu-04,Gigabyte P750GM 750W 80+ Gold,
+psu-05,MSI MAG A850GL 850W Gold,
+psu-06,Corsair RM1000e 1000W Gold,
+case-01,Antec NX200M mATX,https://www.startech.com.bd/image/cache/catalog/casing/antec/nx200m/nx200m-01-500x500.jpg
+case-02,Deepcool MACUBE 110 mATX,
+case-03,Cooler Master MasterBox MB520 ARGB,
+case-04,NZXT H5 Flow,
+case-05,Corsair 4000D Airflow,
+case-06,Lian Li LANCOOL 216,https://www.startech.com.bd/image/cache/catalog/casing/lian-li/lancool-216/lancool-216-001-1200x630.webp
+cool-01,Deepcool AG400,
+cool-02,Deepcool AK620,
+cool-03,Cooler Master Hyper 212 Black,
+cool-04,Arctic Liquid Freezer III 240,
+cool-05,Deepcool LS520 SE 240mm AIO,
+mon-01,Samsung 24in S24C310 FHD 75Hz,https://www.ryans.com/storage/products/main/samsung-ls24c310eaw-24-inch-fhd-display-hdmi-vga-11707310998.webp
+mon-02,MSI G255F 24.5in FHD 180Hz,https://files.pccasegear.com/images/G255F-thumb.jpg
+mon-03,ASUS TUF VG27AQ 27in QHD 165Hz,https://www.startech.com.bd/image/cache/catalog/monitor/asus/tuf-vg27aq1a/tuf-vg27aq1a-02-1200x630.jpg
+mon-04,LG 27GP850 27in QHD 165Hz,
+kb-01,Logitech K120 Wired,https://www.startech.com.bd/image/cache/catalog/keyboard/logitech/k120/k120-bangla-0003-1200x630.webp
+kb-02,Redragon K552 Kumara Mechanical,
+ms-01,Logitech G102 Lightsync,
+ms-02,Razer DeathAdder Essential,
+hs-01,HyperX Cloud Stinger,
+hs-02,Redragon H350 Pandora RGB,
+gpu-01,AFOX GT1030 2GB GDDR5,https://www.techlandbd.com/cache/images/uploads/products/P2552609001/afox-graphics-card-nvidia-geforce-gt1030-cover.webp
+gpu-02,AFOX GTX 1660Ti 6GB GDDR6,https://www.techlandbd.com/cache/images/uploads/products/P2552609003/afox-graphics-card-geforce-gtx-1660ti-6gb-gddr6-atx-dual-fan-cover.webp
+gpu-03,PowerColor Reaper Radeon RX 9050 8GB,https://www.techlandbd.com/cache/images/uploads/products/P1362609001/powercolor-graphics-card-rx-9050-cover.webp
+gpu-04,Gigabyte GeForce RTX 5050 WINDFORCE OC 8GB,https://www.techlandbd.com/cache/images/uploads/products/P0322609012/gigabyte-graphics-card-geforce-rtx-5050-windforce-oc-v2-8g-cover.webp
+gpu-05,PowerColor Fighter Radeon RX 7600 8GB,https://www.techlandbd.com/cache/images/uploads/products/P1362609004/powercolor-graphics-card-fighter-amd-radeon-rx-7600-f-v2-cover.webp
+gpu-06,ZOTAC GAMING GeForce RTX 5060 Twin Edge Plus 8GB,https://www.techlandbd.com/cache/images/uploads/products/P0412609001/zotac-graphics-card-gaming-geforce-rtx-5060-twin-edge-plus-cover.webp
+gpu-07,Manli GeForce RTX 5060 UF 8GB,https://www.techlandbd.com/cache/images/uploads/products/P7042610001/manli-graphics-card-uf-geforce-rtx-5060-cover.webp
+gpu-08,PNY GeForce RTX 5060 Ti 8GB EPIC-X RGB,https://www.techlandbd.com/cache/images/uploads/products/P0552607002/pny-graphics-card-geforce-rtx-5060-ti-8gb-epic-x-rgb-oc-triple-fan-cover.webp
+gpu-09,Gigabyte Radeon RX 9060 XT GAMING 16GB,https://www.techlandbd.com/cache/images/uploads/products/P0322607001/gigabyte-graphics-card-radeon-rx-9060-xt-gaming-16g-cover.webp
+gpu-10,ASUS Dual GeForce RTX 5060 Ti 8GB,https://www.techlandbd.com/cache/images/uploads/products/P0082610003/asus-graphics-card-dual-rtx5060ti-8g-cover.webp
+gpu-11,PowerColor Reaper Radeon RX 9070 GRE 12GB,https://www.techlandbd.com/cache/images/uploads/products/P1362609002/powercolor-graphics-card-reaper-amd-radeon-rx-9070-cover.webp
+gpu-12,Sapphire PULSE Radeon RX 9070 16GB,
+gpu-13,ZOTAC GAMING GeForce RTX 5060 Ti Twin Edge 16GB,https://www.ultratech.com.bd/image/cache/catalog/ZOTAC/zotac-gaming-geforce-rtx-5060-ti-16gb-twin-edge-graphics-card-120x100w.jpg
+ram-01,ADATA XPG GAMMIX D30 8GB DDR4 3200,https://www.ultratech.com.bd/image/cache/catalog/Adata/adata-xpg-gammix-d30-8gb-ddr4-3200mhz-ram-120x100w.jpg
+ram-02,Corsair Vengeance LPX 16GB (2x8) DDR4 3200,
+ram-03,G.Skill Ripjaws V 32GB (2x16) DDR4 3600,
+ram-04,TeamGroup T-Force Delta RGB 16GB (2x8) DDR4 3200,
+ram-05,AITC Master 16GB DDR5 6000 CL38,https://www.ultratech.com.bd/image/cache/catalog/AITC/aitc-master-16gb-ddr5-6000mhz-cl38-gaming-desktop-ram-with-heatsink-120x100w.jpg
+ram-06,Corsair Vengeance 32GB (2x16) DDR5 6000,
+ram-07,G.Skill Trident Z5 RGB 32GB (2x16) DDR5 6000,
+cpu-16,AMD Ryzen 7 7700,https://www.ultratech.com.bd/image/cache/catalog/processor/amd/ryzen-7-7700/amd-ryzen-7-7700-gaming-processor-120x100w.jpg
+mb-14,MSI B850M GAMING PLUS WIFI6E,https://www.ultratech.com.bd/image/cache/catalog/MSI/msi-b850m-gaming-plus-wifi6e-am5-matx-motherboard-120x100w.jpg
+mb-15,MSI MAG B850 TOMAHAWK MAX WIFI,
+ssd-07,Transcend ESD310C 1TB Portable SSD,
+mon-05,ViewSonic XG2409A 24in FHD 240Hz,
+hs-03,T-WOLF H160 Wired Gaming Headset,https://www.ultratech.com.bd/image/cache/catalog/T-Wolf/t-wolf-h160-wired-gaming-headset-with-mic-1-120x100w.jpg
+cpu-17,AMD Ryzen 5 7500F,
+cpu-18,Intel Core i5-14400F,
+cpu-19,AMD Ryzen 5 9600X,
+cpu-20,AMD Ryzen 5 7600X,

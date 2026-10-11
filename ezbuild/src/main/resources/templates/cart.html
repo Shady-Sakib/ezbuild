@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('Cart')}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: header}"></th:block>
+<th:block th:replace="~{fragments/layout :: flash}"></th:block>
+<main class="container page">
+    <h1>Your cart</h1>
+    <div class="empty" th:if="${cart.empty()}">
+        <h3>Your cart is empty</h3><p>Browse the shop or let the assistant plan a full build for you.</p>
+        <a class="btn" th:href="@{/products}">Shop parts</a> <a class="btn sky" th:href="@{/assistant}">Ask the assistant</a>
+    </div>
+    <div class="two-col" th:if="${!cart.empty()}">
+        <div class="card">
+            <div class="line" th:each="l : ${cart.lines()}">
+                <img th:src="${l.image()}" th:alt="${l.name()}" data-fallback="/media/c/part.svg">
+                <div>
+                    <a th:href="@{/products/{id}(id=${l.productId()})}" th:text="${l.name()}"><b>Name</b></a><br>
+                    <small class="muted" th:text="${l.category()}"></small>
+                    <span class="pill sky" th:if="${l.discountPercent() > 0}" th:text="'-' + ${l.discountPercent()} + '%'"></span>
+                    <span class="pill bad" th:if="${l.overStock()}" th:text="'Only ' + ${l.stock()} + ' in stock'"></span>
+                    <div><b th:text="${@fmt.tk(l.unitPrice())}">৳0</b> <span class="price-old" th:if="${l.discountPercent() > 0}" th:text="${@fmt.tk(l.listPrice())}"></span></div>
+                </div>
+                <form th:action="@{/cart/update}" method="post" style="display:flex;gap:6px;align-items:center">
+                    <input type="hidden" name="productId" th:value="${l.productId()}">
+                    <select name="qty" data-autosubmit style="width:76px;min-height:36px" aria-label="Quantity">
+                        <option th:each="i : ${#numbers.sequence(1, 10)}" th:value="${i}" th:text="${i}" th:selected="${i == l.qty()}"></option>
+                    </select>
+                </form>
+                <div style="text-align:right">
+                    <b th:text="${@fmt.tk(l.lineTotal())}">৳0</b>
+                    <form th:action="@{/cart/remove}" method="post"><input type="hidden" name="productId" th:value="${l.productId()}"><button class="link" style="background:none;border:0;cursor:pointer;padding:0;font-size:.82rem" type="submit">Remove</button></form>
+                </div>
+            </div>
+            <form th:action="@{/cart/clear}" method="post" style="margin-top:12px"><button class="btn ghost sm" type="submit">Clear cart</button></form>
+        </div>
+        <aside class="card summary">
+            <h3>Summary</h3>
+            <div class="row"><span th:text="'Items (' + ${cart.count()} + ')'">Items</span><span th:text="${@fmt.tk(cart.subtotal())}"></span></div>
+            <div class="row" th:if="${cart.savings() > 0}"><span>You save</span><span style="color:var(--ok)" th:text="'−' + ${@fmt.tk(cart.savings())}"></span></div>
+            <div class="row"><span>Shipping</span><span class="muted">৳60 Dhaka / ৳100 outside</span></div>
+            <div class="row"><span>Cash on delivery fee</span><span class="muted">+৳50 if COD</span></div>
+            <div class="row total"><span>Estimated total</span><span th:text="${@fmt.tk(quote.total())}"></span></div>
+            <small class="muted">Final total depends on your delivery zone and payment method.</small>
+            <a class="btn sky block lg" style="margin-top:14px" th:href="@{/checkout}" th:classappend="${cart.hasStockProblem()} ? 'loading'">Checkout</a>
+            <p class="muted" th:if="${cart.hasStockProblem()}" style="font-size:.84rem;margin-top:8px">Reduce quantities marked in red to continue.</p>
+        </aside>
+    </div>
+</main>
+<th:block th:replace="~{fragments/layout :: footer}"></th:block>
+<th:block th:replace="~{fragments/layout :: overlays}"></th:block>
+</body>
+</html>

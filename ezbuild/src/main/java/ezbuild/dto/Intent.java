@@ -1,0 +1,5 @@
+package ezbuild.dto;
+
+public enum Intent {
+    BUILD_FROM_BUDGET, BUILD_AROUND_PARTS, CATALOG_QUESTION, EXPLAIN, SMALLTALK, OFF_TOPIC
+}

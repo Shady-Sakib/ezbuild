@@ -1,0 +1,1450 @@
+[
+ {
+  "_id": "cpu-01",
+  "sku": "cpu-01",
+  "category": "CPU",
+  "brand": "AMD",
+  "name": "AMD Ryzen 5 5500",
+  "price": 10500,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "socket": "AM4",
+   "cores": 6,
+   "tdp": 65
+  },
+  "image": "media/p/cpu-01.webp",
+  "active": true
+ },
+ {
+  "_id": "cpu-02",
+  "sku": "cpu-02",
+  "category": "CPU",
+  "brand": "AMD",
+  "name": "AMD Ryzen 5 5600",
+  "price": 12200,
+  "discountPercent": 10,
+  "stock": 15,
+  "specs": {
+   "socket": "AM4",
+   "cores": 6,
+   "tdp": 65
+  },
+  "image": "media/p/cpu-02.webp",
+  "active": true
+ },
+ {
+  "_id": "cpu-03",
+  "sku": "cpu-03",
+  "category": "CPU",
+  "brand": "AMD",
+  "name": "AMD Ryzen 5 5600X",
+  "price": 14200,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "socket": "AM4",
+   "cores": 6,
+   "tdp": 65
+  },
+  "image": "media/p/cpu-03.webp",
+  "active": true
+ },
+ {
+  "_id": "cpu-04",
+  "sku": "cpu-04",
+  "category": "CPU",
+  "brand": "AMD",
+  "name": "AMD Ryzen 7 5700X",
+  "price": 19500,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "socket": "AM4",
+   "cores": 8,
+   "tdp": 65
+  },
+  "image": "media/p/cpu-04.webp",
+  "active": true
+ },
+ {
+  "_id": "cpu-05",
+  "sku": "cpu-05",
+  "category": "CPU",
+  "brand": "AMD",
+  "name": "AMD Ryzen 5 8400F",
+  "price": 11200,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "socket": "AM5",
+   "cores": 6,
+   "tdp": 65
+  },
+  "image": "media/p/cpu-05.webp",
+  "active": true
+ },
+ {
+  "_id": "cpu-06",
+  "sku": "cpu-06",
+  "category": "CPU",
+  "brand": "AMD",
+  "name": "AMD Ryzen 5 7600",
+  "price": 21500,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "socket": "AM5",
+   "cores": 6,
+   "tdp": 65
+  },
+  "image": "media/p/cpu-06.webp",
+  "active": true
+ },
+ {
+  "_id": "cpu-07",
+  "sku": "cpu-07",
+  "category": "CPU",
+  "brand": "AMD",
+  "name": "AMD Ryzen 7 7800X3D",
+  "price": 52000,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "socket": "AM5",
+   "cores": 8,
+   "tdp": 120
+  },
+  "image": "media/p/cpu-07.webp",
+  "active": true
+ },
+ {
+  "_id": "cpu-08",
+  "sku": "cpu-08",
+  "category": "CPU",
+  "brand": "AMD",
+  "name": "AMD Ryzen 7 9700X",
+  "price": 44000,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "socket": "AM5",
+   "cores": 8,
+   "tdp": 65
+  },
+  "image": "media/p/cpu-08.webp",
+  "active": true
+ },
+ {
+  "_id": "cpu-09",
+  "sku": "cpu-09",
+  "category": "CPU",
+  "brand": "Intel",
+  "name": "Intel Core i3-10105",
+  "price": 10400,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "socket": "LGA1200",
+   "cores": 4,
+   "tdp": 65
+  },
+  "image": "media/p/cpu-09.webp",
+  "active": true
+ },
+ {
+  "_id": "cpu-10",
+  "sku": "cpu-10",
+  "category": "CPU",
+  "brand": "Intel",
+  "name": "Intel Core i5-10400",
+  "price": 14000,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "socket": "LGA1200",
+   "cores": 6,
+   "tdp": 65
+  },
+  "image": "media/p/cpu-10.webp",
+  "active": true
+ },
+ {
+  "_id": "cpu-11",
+  "sku": "cpu-11",
+  "category": "CPU",
+  "brand": "Intel",
+  "name": "Intel Core i3-12100F",
+  "price": 9500,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "socket": "LGA1700",
+   "cores": 4,
+   "tdp": 58
+  },
+  "image": "media/p/cpu-11.webp",
+  "active": true
+ },
+ {
+  "_id": "cpu-12",
+  "sku": "cpu-12",
+  "category": "CPU",
+  "brand": "Intel",
+  "name": "Intel Core i5-12400F",
+  "price": 14500,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "socket": "LGA1700",
+   "cores": 6,
+   "tdp": 65
+  },
+  "image": "media/p/cpu-12.webp",
+  "active": true
+ },
+ {
+  "_id": "cpu-13",
+  "sku": "cpu-13",
+  "category": "CPU",
+  "brand": "Intel",
+  "name": "Intel Core i5-13400F",
+  "price": 21500,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "socket": "LGA1700",
+   "cores": 10,
+   "tdp": 65
+  },
+  "image": "media/p/cpu-13.webp",
+  "active": true
+ },
+ {
+  "_id": "cpu-14",
+  "sku": "cpu-14",
+  "category": "CPU",
+  "brand": "Intel",
+  "name": "Intel Core i5-14600K",
+  "price": 35500,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "socket": "LGA1700",
+   "cores": 14,
+   "tdp": 125
+  },
+  "image": "media/p/cpu-14.webp",
+  "active": true
+ },
+ {
+  "_id": "cpu-15",
+  "sku": "cpu-15",
+  "category": "CPU",
+  "brand": "Intel",
+  "name": "Intel Core i7-14700K",
+  "price": 50500,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "socket": "LGA1700",
+   "cores": 20,
+   "tdp": 125
+  },
+  "image": "media/p/cpu-15.webp",
+  "active": true
+ },
+ {
+  "_id": "mb-01",
+  "sku": "mb-01",
+  "category": "MOTHERBOARD",
+  "brand": "Gigabyte",
+  "name": "Gigabyte A520M K V2",
+  "price": 6800,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "socket": "AM4",
+   "ram": "DDR4",
+   "form": "mATX"
+  },
+  "image": "media/p/mb-01.webp",
+  "active": true
+ },
+ {
+  "_id": "mb-02",
+  "sku": "mb-02",
+  "category": "MOTHERBOARD",
+  "brand": "MSI",
+  "name": "MSI B450M-A PRO MAX II",
+  "price": 8500,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "socket": "AM4",
+   "ram": "DDR4",
+   "form": "mATX"
+  },
+  "image": "media/p/mb-02.webp",
+  "active": true
+ },
+ {
+  "_id": "mb-03",
+  "sku": "mb-03",
+  "category": "MOTHERBOARD",
+  "brand": "ASRock",
+  "name": "ASRock B550M-HDV",
+  "price": 9800,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "socket": "AM4",
+   "ram": "DDR4",
+   "form": "mATX"
+  },
+  "image": "media/p/mb-03.webp",
+  "active": true
+ },
+ {
+  "_id": "mb-04",
+  "sku": "mb-04",
+  "category": "MOTHERBOARD",
+  "brand": "MSI",
+  "name": "MSI B550M PRO-VDH WiFi",
+  "price": 13500,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "socket": "AM4",
+   "ram": "DDR4",
+   "form": "mATX"
+  },
+  "image": "media/p/mb-04.webp",
+  "active": true
+ },
+ {
+  "_id": "mb-05",
+  "sku": "mb-05",
+  "category": "MOTHERBOARD",
+  "brand": "Gigabyte",
+  "name": "Gigabyte B650M K",
+  "price": 14500,
+  "discountPercent": 5,
+  "stock": 15,
+  "specs": {
+   "socket": "AM5",
+   "ram": "DDR5",
+   "form": "mATX"
+  },
+  "image": "media/p/mb-05.webp",
+  "active": true
+ },
+ {
+  "_id": "mb-06",
+  "sku": "mb-06",
+  "category": "MOTHERBOARD",
+  "brand": "MSI",
+  "name": "MSI PRO B650M-P",
+  "price": 16500,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "socket": "AM5",
+   "ram": "DDR5",
+   "form": "mATX"
+  },
+  "image": "media/p/mb-06.webp",
+  "active": true
+ },
+ {
+  "_id": "mb-07",
+  "sku": "mb-07",
+  "category": "MOTHERBOARD",
+  "brand": "ASUS",
+  "name": "ASUS TUF Gaming B650-PLUS WiFi",
+  "price": 28500,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "socket": "AM5",
+   "ram": "DDR5",
+   "form": "ATX"
+  },
+  "image": "media/p/mb-07.webp",
+  "active": true
+ },
+ {
+  "_id": "mb-08",
+  "sku": "mb-08",
+  "category": "MOTHERBOARD",
+  "brand": "Gigabyte",
+  "name": "Gigabyte H510M K V2",
+  "price": 7800,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "socket": "LGA1200",
+   "ram": "DDR4",
+   "form": "mATX"
+  },
+  "image": "media/p/mb-08.webp",
+  "active": true
+ },
+ {
+  "_id": "mb-09",
+  "sku": "mb-09",
+  "category": "MOTHERBOARD",
+  "brand": "MSI",
+  "name": "MSI PRO H610M-E DDR4",
+  "price": 8200,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "socket": "LGA1700",
+   "ram": "DDR4",
+   "form": "mATX"
+  },
+  "image": "media/p/mb-09.webp",
+  "active": true
+ },
+ {
+  "_id": "mb-10",
+  "sku": "mb-10",
+  "category": "MOTHERBOARD",
+  "brand": "Gigabyte",
+  "name": "Gigabyte B760M DS3H DDR4",
+  "price": 13500,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "socket": "LGA1700",
+   "ram": "DDR4",
+   "form": "mATX"
+  },
+  "image": "media/p/mb-10.webp",
+  "active": true
+ },
+ {
+  "_id": "mb-11",
+  "sku": "mb-11",
+  "category": "MOTHERBOARD",
+  "brand": "MSI",
+  "name": "MSI PRO B760M-P DDR5",
+  "price": 15800,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "socket": "LGA1700",
+   "ram": "DDR5",
+   "form": "mATX"
+  },
+  "image": "media/p/mb-11.webp",
+  "active": true
+ },
+ {
+  "_id": "mb-12",
+  "sku": "mb-12",
+  "category": "MOTHERBOARD",
+  "brand": "ASUS",
+  "name": "ASUS TUF Gaming B760M-PLUS WiFi D4",
+  "price": 22500,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "socket": "LGA1700",
+   "ram": "DDR4",
+   "form": "mATX"
+  },
+  "image": "media/p/mb-12.webp",
+  "active": true
+ },
+ {
+  "_id": "mb-13",
+  "sku": "mb-13",
+  "category": "MOTHERBOARD",
+  "brand": "MSI",
+  "name": "MSI MAG Z790 TOMAHAWK WiFi",
+  "price": 39500,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "socket": "LGA1700",
+   "ram": "DDR5",
+   "form": "ATX"
+  },
+  "image": "media/p/mb-13.webp",
+  "active": true
+ },
+ {
+  "_id": "ssd-01",
+  "sku": "ssd-01",
+  "category": "STORAGE",
+  "brand": "Kingston",
+  "name": "Kingston NV2 500GB NVMe",
+  "price": 4300,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "iface": "NVMe",
+   "gb": 500
+  },
+  "image": "media/p/ssd-01.webp",
+  "active": true
+ },
+ {
+  "_id": "ssd-02",
+  "sku": "ssd-02",
+  "category": "STORAGE",
+  "brand": "Kingston",
+  "name": "Kingston NV2 1TB NVMe",
+  "price": 7500,
+  "discountPercent": 10,
+  "stock": 15,
+  "specs": {
+   "iface": "NVMe",
+   "gb": 1000
+  },
+  "image": "media/p/ssd-02.webp",
+  "active": true
+ },
+ {
+  "_id": "ssd-03",
+  "sku": "ssd-03",
+  "category": "STORAGE",
+  "brand": "Samsung",
+  "name": "Samsung 980 PRO 1TB NVMe",
+  "price": 13500,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "iface": "NVMe",
+   "gb": 1000
+  },
+  "image": "media/p/ssd-03.webp",
+  "active": true
+ },
+ {
+  "_id": "ssd-04",
+  "sku": "ssd-04",
+  "category": "STORAGE",
+  "brand": "WD",
+  "name": "WD Blue SN580 1TB NVMe",
+  "price": 8200,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "iface": "NVMe",
+   "gb": 1000
+  },
+  "image": "media/p/ssd-04.webp",
+  "active": true
+ },
+ {
+  "_id": "ssd-05",
+  "sku": "ssd-05",
+  "category": "STORAGE",
+  "brand": "Crucial",
+  "name": "Crucial P3 Plus 2TB NVMe",
+  "price": 15500,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "iface": "NVMe",
+   "gb": 2000
+  },
+  "image": "media/p/ssd-05.webp",
+  "active": true
+ },
+ {
+  "_id": "ssd-06",
+  "sku": "ssd-06",
+  "category": "STORAGE",
+  "brand": "Kingston",
+  "name": "Kingston A400 480GB SATA",
+  "price": 3600,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "iface": "SATA",
+   "gb": 480
+  },
+  "image": "media/p/ssd-06.webp",
+  "active": true
+ },
+ {
+  "_id": "hdd-01",
+  "sku": "hdd-01",
+  "category": "STORAGE",
+  "brand": "Seagate",
+  "name": "Seagate BarraCuda 1TB 7200RPM",
+  "price": 4300,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "iface": "HDD",
+   "gb": 1000
+  },
+  "image": "media/p/hdd-01.webp",
+  "active": true
+ },
+ {
+  "_id": "hdd-02",
+  "sku": "hdd-02",
+  "category": "STORAGE",
+  "brand": "WD",
+  "name": "WD Blue 2TB 7200RPM",
+  "price": 6500,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "iface": "HDD",
+   "gb": 2000
+  },
+  "image": "media/p/hdd-02.webp",
+  "active": true
+ },
+ {
+  "_id": "psu-01",
+  "sku": "psu-01",
+  "category": "PSU",
+  "brand": "Corsair",
+  "name": "Corsair CV450 450W 80+ Bronze",
+  "price": 4900,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "watt": 450
+  },
+  "image": "media/p/psu-01.webp",
+  "active": true
+ },
+ {
+  "_id": "psu-02",
+  "sku": "psu-02",
+  "category": "PSU",
+  "brand": "Cooler Master",
+  "name": "Cooler Master MWE 550 Bronze V2",
+  "price": 6500,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "watt": 550
+  },
+  "image": "media/p/psu-02.webp",
+  "active": true
+ },
+ {
+  "_id": "psu-03",
+  "sku": "psu-03",
+  "category": "PSU",
+  "brand": "Corsair",
+  "name": "Corsair CX650 650W 80+ Bronze",
+  "price": 8500,
+  "discountPercent": 10,
+  "stock": 15,
+  "specs": {
+   "watt": 650
+  },
+  "image": "media/p/psu-03.webp",
+  "active": true
+ },
+ {
+  "_id": "psu-04",
+  "sku": "psu-04",
+  "category": "PSU",
+  "brand": "Gigabyte",
+  "name": "Gigabyte P750GM 750W 80+ Gold",
+  "price": 12500,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "watt": 750
+  },
+  "image": "media/p/psu-04.webp",
+  "active": true
+ },
+ {
+  "_id": "psu-05",
+  "sku": "psu-05",
+  "category": "PSU",
+  "brand": "MSI",
+  "name": "MSI MAG A850GL 850W Gold",
+  "price": 17500,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "watt": 850
+  },
+  "image": "media/p/psu-05.webp",
+  "active": true
+ },
+ {
+  "_id": "psu-06",
+  "sku": "psu-06",
+  "category": "PSU",
+  "brand": "Corsair",
+  "name": "Corsair RM1000e 1000W Gold",
+  "price": 25500,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "watt": 1000
+  },
+  "image": "media/p/psu-06.webp",
+  "active": true
+ },
+ {
+  "_id": "case-01",
+  "sku": "case-01",
+  "category": "CASE",
+  "brand": "Antec",
+  "name": "Antec NX200M mATX",
+  "price": 3800,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "form": "mATX",
+   "maxgpu": 300
+  },
+  "image": "media/p/case-01.webp",
+  "active": true
+ },
+ {
+  "_id": "case-02",
+  "sku": "case-02",
+  "category": "CASE",
+  "brand": "Deepcool",
+  "name": "Deepcool MACUBE 110 mATX",
+  "price": 5200,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "form": "mATX",
+   "maxgpu": 320
+  },
+  "image": "media/p/case-02.webp",
+  "active": true
+ },
+ {
+  "_id": "case-03",
+  "sku": "case-03",
+  "category": "CASE",
+  "brand": "Cooler Master",
+  "name": "Cooler Master MasterBox MB520 ARGB",
+  "price": 7800,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "form": "ATX",
+   "maxgpu": 410
+  },
+  "image": "media/p/case-03.webp",
+  "active": true
+ },
+ {
+  "_id": "case-04",
+  "sku": "case-04",
+  "category": "CASE",
+  "brand": "NZXT",
+  "name": "NZXT H5 Flow",
+  "price": 12500,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "form": "ATX",
+   "maxgpu": 365
+  },
+  "image": "media/p/case-04.webp",
+  "active": true
+ },
+ {
+  "_id": "case-05",
+  "sku": "case-05",
+  "category": "CASE",
+  "brand": "Corsair",
+  "name": "Corsair 4000D Airflow",
+  "price": 13500,
+  "discountPercent": 10,
+  "stock": 15,
+  "specs": {
+   "form": "ATX",
+   "maxgpu": 360
+  },
+  "image": "media/p/case-05.webp",
+  "active": true
+ },
+ {
+  "_id": "case-06",
+  "sku": "case-06",
+  "category": "CASE",
+  "brand": "Lian Li",
+  "name": "Lian Li LANCOOL 216",
+  "price": 16500,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "form": "ATX",
+   "maxgpu": 392
+  },
+  "image": "media/p/case-06.webp",
+  "active": true
+ },
+ {
+  "_id": "cool-01",
+  "sku": "cool-01",
+  "category": "COOLER",
+  "brand": "Deepcool",
+  "name": "Deepcool AG400",
+  "price": 2300,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "type": "air",
+   "tdp": 150
+  },
+  "image": "media/p/cool-01.webp",
+  "active": true
+ },
+ {
+  "_id": "cool-02",
+  "sku": "cool-02",
+  "category": "COOLER",
+  "brand": "Deepcool",
+  "name": "Deepcool AK620",
+  "price": 6800,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "type": "air",
+   "tdp": 260
+  },
+  "image": "media/p/cool-02.webp",
+  "active": true
+ },
+ {
+  "_id": "cool-03",
+  "sku": "cool-03",
+  "category": "COOLER",
+  "brand": "Cooler Master",
+  "name": "Cooler Master Hyper 212 Black",
+  "price": 3600,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "type": "air",
+   "tdp": 150
+  },
+  "image": "media/p/cool-03.webp",
+  "active": true
+ },
+ {
+  "_id": "cool-04",
+  "sku": "cool-04",
+  "category": "COOLER",
+  "brand": "Arctic",
+  "name": "Arctic Liquid Freezer III 240",
+  "price": 11500,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "type": "aio",
+   "tdp": 300
+  },
+  "image": "media/p/cool-04.webp",
+  "active": true
+ },
+ {
+  "_id": "cool-05",
+  "sku": "cool-05",
+  "category": "COOLER",
+  "brand": "Deepcool",
+  "name": "Deepcool LS520 SE 240mm AIO",
+  "price": 8500,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "type": "aio",
+   "tdp": 250
+  },
+  "image": "media/p/cool-05.webp",
+  "active": true
+ },
+ {
+  "_id": "mon-01",
+  "sku": "mon-01",
+  "category": "MONITOR",
+  "brand": "Samsung",
+  "name": "Samsung 24in S24C310 FHD 75Hz",
+  "price": 12500,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "inch": 24,
+   "hz": 75
+  },
+  "image": "media/p/mon-01.webp",
+  "active": true
+ },
+ {
+  "_id": "mon-02",
+  "sku": "mon-02",
+  "category": "MONITOR",
+  "brand": "MSI",
+  "name": "MSI G255F 24.5in FHD 180Hz",
+  "price": 15500,
+  "discountPercent": 5,
+  "stock": 15,
+  "specs": {
+   "inch": 24.5,
+   "hz": 180
+  },
+  "image": "media/p/mon-02.webp",
+  "active": true
+ },
+ {
+  "_id": "mon-03",
+  "sku": "mon-03",
+  "category": "MONITOR",
+  "brand": "ASUS",
+  "name": "ASUS TUF VG27AQ 27in QHD 165Hz",
+  "price": 34500,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "inch": 27,
+   "hz": 165
+  },
+  "image": "media/p/mon-03.webp",
+  "active": true
+ },
+ {
+  "_id": "mon-04",
+  "sku": "mon-04",
+  "category": "MONITOR",
+  "brand": "LG",
+  "name": "LG 27GP850 27in QHD 165Hz",
+  "price": 39500,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "inch": 27,
+   "hz": 165
+  },
+  "image": "media/p/mon-04.webp",
+  "active": true
+ },
+ {
+  "_id": "kb-01",
+  "sku": "kb-01",
+  "category": "KEYBOARD",
+  "brand": "Logitech",
+  "name": "Logitech K120 Wired",
+  "price": 800,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {},
+  "image": "media/p/kb-01.webp",
+  "active": true
+ },
+ {
+  "_id": "kb-02",
+  "sku": "kb-02",
+  "category": "KEYBOARD",
+  "brand": "Redragon",
+  "name": "Redragon K552 Kumara Mechanical",
+  "price": 3500,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {},
+  "image": "media/p/kb-02.webp",
+  "active": true
+ },
+ {
+  "_id": "ms-01",
+  "sku": "ms-01",
+  "category": "MOUSE",
+  "brand": "Logitech",
+  "name": "Logitech G102 Lightsync",
+  "price": 1700,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {},
+  "image": "media/p/ms-01.webp",
+  "active": true
+ },
+ {
+  "_id": "ms-02",
+  "sku": "ms-02",
+  "category": "MOUSE",
+  "brand": "Razer",
+  "name": "Razer DeathAdder Essential",
+  "price": 2400,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {},
+  "image": "media/p/ms-02.webp",
+  "active": true
+ },
+ {
+  "_id": "hs-01",
+  "sku": "hs-01",
+  "category": "HEADSET",
+  "brand": "HyperX",
+  "name": "HyperX Cloud Stinger",
+  "price": 4200,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {},
+  "image": "media/p/hs-01.webp",
+  "active": true
+ },
+ {
+  "_id": "hs-02",
+  "sku": "hs-02",
+  "category": "HEADSET",
+  "brand": "Redragon",
+  "name": "Redragon H350 Pandora RGB",
+  "price": 2800,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {},
+  "image": "media/p/hs-02.webp",
+  "active": true
+ },
+ {
+  "_id": "gpu-01",
+  "sku": "gpu-01",
+  "category": "GPU",
+  "brand": "AFOX",
+  "name": "AFOX GT1030 2GB GDDR5",
+  "price": 11500,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "vram": 2,
+   "tdp": 30,
+   "len": 170
+  },
+  "image": "media/p/gpu-01.webp",
+  "active": true
+ },
+ {
+  "_id": "gpu-02",
+  "sku": "gpu-02",
+  "category": "GPU",
+  "brand": "AFOX",
+  "name": "AFOX GTX 1660Ti 6GB GDDR6",
+  "price": 30000,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "vram": 6,
+   "tdp": 120,
+   "len": 230
+  },
+  "image": "media/p/gpu-02.webp",
+  "active": true
+ },
+ {
+  "_id": "gpu-03",
+  "sku": "gpu-03",
+  "category": "GPU",
+  "brand": "PowerColor",
+  "name": "PowerColor Reaper Radeon RX 9050 8GB",
+  "price": 45700,
+  "discountPercent": 10,
+  "stock": 15,
+  "specs": {
+   "vram": 8,
+   "tdp": 130,
+   "len": 240
+  },
+  "image": "media/p/gpu-03.webp",
+  "active": true
+ },
+ {
+  "_id": "gpu-04",
+  "sku": "gpu-04",
+  "category": "GPU",
+  "brand": "Gigabyte",
+  "name": "Gigabyte GeForce RTX 5050 WINDFORCE OC 8GB",
+  "price": 45999,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "vram": 8,
+   "tdp": 130,
+   "len": 205
+  },
+  "image": "media/p/gpu-04.webp",
+  "active": true
+ },
+ {
+  "_id": "gpu-05",
+  "sku": "gpu-05",
+  "category": "GPU",
+  "brand": "PowerColor",
+  "name": "PowerColor Fighter Radeon RX 7600 8GB",
+  "price": 46499,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "vram": 8,
+   "tdp": 165,
+   "len": 240
+  },
+  "image": "media/p/gpu-05.webp",
+  "active": true
+ },
+ {
+  "_id": "gpu-06",
+  "sku": "gpu-06",
+  "category": "GPU",
+  "brand": "ZOTAC",
+  "name": "ZOTAC GAMING GeForce RTX 5060 Twin Edge Plus 8GB",
+  "price": 55500,
+  "discountPercent": 5,
+  "stock": 15,
+  "specs": {
+   "vram": 8,
+   "tdp": 145,
+   "len": 230
+  },
+  "image": "media/p/gpu-06.webp",
+  "active": true
+ },
+ {
+  "_id": "gpu-07",
+  "sku": "gpu-07",
+  "category": "GPU",
+  "brand": "Manli",
+  "name": "Manli GeForce RTX 5060 UF 8GB",
+  "price": 65200,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "vram": 8,
+   "tdp": 145,
+   "len": 250
+  },
+  "image": "media/p/gpu-07.webp",
+  "active": true
+ },
+ {
+  "_id": "gpu-08",
+  "sku": "gpu-08",
+  "category": "GPU",
+  "brand": "PNY",
+  "name": "PNY GeForce RTX 5060 Ti 8GB EPIC-X RGB",
+  "price": 71999,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "vram": 8,
+   "tdp": 180,
+   "len": 300
+  },
+  "image": "media/p/gpu-08.webp",
+  "active": true
+ },
+ {
+  "_id": "gpu-09",
+  "sku": "gpu-09",
+  "category": "GPU",
+  "brand": "Gigabyte",
+  "name": "Gigabyte Radeon RX 9060 XT GAMING 16GB",
+  "price": 80000,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "vram": 16,
+   "tdp": 182,
+   "len": 290
+  },
+  "image": "media/p/gpu-09.webp",
+  "active": true
+ },
+ {
+  "_id": "gpu-10",
+  "sku": "gpu-10",
+  "category": "GPU",
+  "brand": "ASUS",
+  "name": "ASUS Dual GeForce RTX 5060 Ti 8GB",
+  "price": 81000,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "vram": 8,
+   "tdp": 180,
+   "len": 250
+  },
+  "image": "media/p/gpu-10.webp",
+  "active": true
+ },
+ {
+  "_id": "gpu-11",
+  "sku": "gpu-11",
+  "category": "GPU",
+  "brand": "PowerColor",
+  "name": "PowerColor Reaper Radeon RX 9070 GRE 12GB",
+  "price": 88999,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "vram": 12,
+   "tdp": 220,
+   "len": 300
+  },
+  "image": "media/p/gpu-11.webp",
+  "active": true
+ },
+ {
+  "_id": "gpu-12",
+  "sku": "gpu-12",
+  "category": "GPU",
+  "brand": "Sapphire",
+  "name": "Sapphire PULSE Radeon RX 9070 16GB",
+  "price": 110900,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "vram": 16,
+   "tdp": 304,
+   "len": 330
+  },
+  "image": "media/p/gpu-12.webp",
+  "active": true
+ },
+ {
+  "_id": "gpu-13",
+  "sku": "gpu-13",
+  "category": "GPU",
+  "brand": "ZOTAC",
+  "name": "ZOTAC GAMING GeForce RTX 5060 Ti Twin Edge 16GB",
+  "price": 120000,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "vram": 16,
+   "tdp": 180,
+   "len": 250
+  },
+  "image": "media/p/gpu-13.webp",
+  "active": true
+ },
+ {
+  "_id": "ram-01",
+  "sku": "ram-01",
+  "category": "RAM",
+  "brand": "ADATA",
+  "name": "ADATA XPG GAMMIX D30 8GB DDR4 3200",
+  "price": 7500,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "type": "DDR4",
+   "gb": 8,
+   "mhz": 3200
+  },
+  "image": "media/p/ram-01.webp",
+  "active": true
+ },
+ {
+  "_id": "ram-02",
+  "sku": "ram-02",
+  "category": "RAM",
+  "brand": "Corsair",
+  "name": "Corsair Vengeance LPX 16GB (2x8) DDR4 3200",
+  "price": 15000,
+  "discountPercent": 10,
+  "stock": 15,
+  "specs": {
+   "type": "DDR4",
+   "gb": 16,
+   "mhz": 3200
+  },
+  "image": "media/p/ram-02.webp",
+  "active": true
+ },
+ {
+  "_id": "ram-03",
+  "sku": "ram-03",
+  "category": "RAM",
+  "brand": "G.Skill",
+  "name": "G.Skill Ripjaws V 32GB (2x16) DDR4 3600",
+  "price": 28000,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "type": "DDR4",
+   "gb": 32,
+   "mhz": 3600
+  },
+  "image": "media/p/ram-03.webp",
+  "active": true
+ },
+ {
+  "_id": "ram-04",
+  "sku": "ram-04",
+  "category": "RAM",
+  "brand": "TeamGroup",
+  "name": "TeamGroup T-Force Delta RGB 16GB (2x8) DDR4 3200",
+  "price": 15500,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "type": "DDR4",
+   "gb": 16,
+   "mhz": 3200
+  },
+  "image": "media/p/ram-04.webp",
+  "active": true
+ },
+ {
+  "_id": "ram-05",
+  "sku": "ram-05",
+  "category": "RAM",
+  "brand": "AITC",
+  "name": "AITC Master 16GB DDR5 6000 CL38",
+  "price": 27000,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "type": "DDR5",
+   "gb": 16,
+   "mhz": 6000
+  },
+  "image": "media/p/ram-05.webp",
+  "active": true
+ },
+ {
+  "_id": "ram-06",
+  "sku": "ram-06",
+  "category": "RAM",
+  "brand": "Corsair",
+  "name": "Corsair Vengeance 32GB (2x16) DDR5 6000",
+  "price": 55000,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "type": "DDR5",
+   "gb": 32,
+   "mhz": 6000
+  },
+  "image": "media/p/ram-06.webp",
+  "active": true
+ },
+ {
+  "_id": "ram-07",
+  "sku": "ram-07",
+  "category": "RAM",
+  "brand": "G.Skill",
+  "name": "G.Skill Trident Z5 RGB 32GB (2x16) DDR5 6000",
+  "price": 60000,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "type": "DDR5",
+   "gb": 32,
+   "mhz": 6000
+  },
+  "image": "media/p/ram-07.webp",
+  "active": true
+ },
+ {
+  "_id": "cpu-16",
+  "sku": "cpu-16",
+  "category": "CPU",
+  "brand": "AMD",
+  "name": "AMD Ryzen 7 7700",
+  "price": 19999,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "socket": "AM5",
+   "cores": 8,
+   "tdp": 65
+  },
+  "image": "media/p/cpu-16.webp",
+  "active": true
+ },
+ {
+  "_id": "mb-14",
+  "sku": "mb-14",
+  "category": "MOTHERBOARD",
+  "brand": "MSI",
+  "name": "MSI B850M GAMING PLUS WIFI6E",
+  "price": 23000,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "socket": "AM5",
+   "ram": "DDR5",
+   "form": "mATX"
+  },
+  "image": "media/p/mb-14.webp",
+  "active": true
+ },
+ {
+  "_id": "mb-15",
+  "sku": "mb-15",
+  "category": "MOTHERBOARD",
+  "brand": "MSI",
+  "name": "MSI MAG B850 TOMAHAWK MAX WIFI",
+  "price": 38500,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "socket": "AM5",
+   "ram": "DDR5",
+   "form": "ATX"
+  },
+  "image": "media/p/mb-15.webp",
+  "active": true
+ },
+ {
+  "_id": "ssd-07",
+  "sku": "ssd-07",
+  "category": "STORAGE",
+  "brand": "Transcend",
+  "name": "Transcend ESD310C 1TB Portable SSD",
+  "price": 29000,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "iface": "Portable",
+   "gb": 1000
+  },
+  "image": "media/p/ssd-07.webp",
+  "active": true
+ },
+ {
+  "_id": "mon-05",
+  "sku": "mon-05",
+  "category": "MONITOR",
+  "brand": "ViewSonic",
+  "name": "ViewSonic XG2409A 24in FHD 240Hz",
+  "price": 18900,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {
+   "inch": 24,
+   "hz": 240
+  },
+  "image": "media/p/mon-05.webp",
+  "active": true
+ },
+ {
+  "_id": "hs-03",
+  "sku": "hs-03",
+  "category": "HEADSET",
+  "brand": "T-WOLF",
+  "name": "T-WOLF H160 Wired Gaming Headset",
+  "price": 999,
+  "discountPercent": 0,
+  "stock": 15,
+  "specs": {},
+  "image": "media/p/hs-03.webp",
+  "active": true
+ }
+]

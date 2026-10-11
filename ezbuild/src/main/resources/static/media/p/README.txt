@@ -1,0 +1,3 @@
+Product photos, one per SKU: cpu-01.webp, gpu-07.webp, ...
+Fill this folder with tools/fetch_images.py, or upload images from the admin product editor.
+Products without a photo show their category icon (/media/c/{category}.svg).

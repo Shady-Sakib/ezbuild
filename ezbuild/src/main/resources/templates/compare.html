@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('Compare')}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: header}"></th:block>
+<main class="container page">
+    <h1>Compare</h1>
+    <p class="muted">Add up to three products: <code>/compare?ids=gpu-03,gpu-06,gpu-09</code>, or use "Compare" on product pages and keep adding.</p>
+    <div class="empty" th:if="${products.isEmpty()}"><a class="btn" th:href="@{/products}">Choose products</a></div>
+    <div class="table-wrap" th:if="${!products.isEmpty()}">
+        <table class="table">
+            <thead><tr><th></th><th th:each="p : ${products}"><a th:href="@{/products/{id}(id=${p.id})}" th:text="${p.name}"></a></th></tr></thead>
+            <tbody>
+            <tr><th>Image</th><td th:each="p : ${products}"><img class="thumb" style="width:90px;height:90px" th:with="imgUrl=${@media.product(p.id, p.category)}" th:src="${imgUrl}" alt=""></td></tr>
+            <tr><th>Price</th><td th:each="p : ${products}"><b th:text="${@fmt.tk(p.effectivePrice())}"></b></td></tr>
+            <tr><th>Brand</th><td th:each="p : ${products}" th:text="${p.brand}"></td></tr>
+            <tr><th>Stock</th><td th:each="p : ${products}" th:text="${p.inStock()} ? 'In stock' : 'Out of stock'"></td></tr>
+            <tr th:each="k : ${specKeys}"><th th:text="${@fmt.specLabel(k)}"></th><td th:each="p : ${products}" th:text="${p.spec(k) != null ? p.spec(k) : '—'}"></td></tr>
+            <tr><th></th><td th:each="p : ${products}"><button class="btn sm sky" type="button" th:data-add="${p.id}" th:disabled="${!p.inStock()}">Add to cart</button></td></tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+<th:block th:replace="~{fragments/layout :: footer}"></th:block>
+<th:block th:replace="~{fragments/layout :: overlays}"></th:block>
+</body>
+</html>

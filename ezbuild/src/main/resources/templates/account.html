@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('Account')}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: header}"></th:block>
+<th:block th:replace="~{fragments/layout :: flash}"></th:block>
+<main class="container page">
+    <h1>Account</h1>
+    <p class="muted"><span th:text="${me.username}"></span> · <span th:text="${me.email}"></span> · <span th:each="r : ${me.roles}" class="pill" style="margin-right:4px" th:text="${r.label}"></span></p>
+    <div class="grid-2" style="align-items:start">
+        <div class="card">
+            <h3>Profile</h3>
+            <form th:action="@{/account/profile}" th:object="${profile}" method="post">
+                <div class="field" th:classappend="${#fields.hasErrors('displayName')} ? 'has-error'"><label for="dn">Display name</label><input id="dn" type="text" th:field="*{displayName}"><div class="field-error" th:errors="*{displayName}"></div></div>
+                <div class="field" th:classappend="${#fields.hasErrors('phone')} ? 'has-error'"><label for="ph">Mobile</label><input id="ph" type="tel" th:field="*{phone}"><div class="field-error" th:errors="*{phone}"></div></div>
+                <button class="btn" type="submit">Save profile</button>
+            </form>
+        </div>
+        <div class="card" id="security">
+            <h3>Password</h3>
+            <form th:action="@{/account/password}" th:object="${passwordForm}" method="post">
+                <div class="field"><label for="cp">Current password</label><input id="cp" type="password" th:field="*{currentPassword}" autocomplete="current-password"></div>
+                <div class="field" th:classappend="${#fields.hasErrors('newPassword')} ? 'has-error'"><label for="np">New password</label><input id="np" type="password" th:field="*{newPassword}" autocomplete="new-password"><div class="field-error" th:errors="*{newPassword}"></div></div>
+                <div class="field" th:classappend="${#fields.hasErrors('passwordConfirmed')} ? 'has-error'"><label for="cf">Confirm</label><input id="cf" type="password" th:field="*{confirmPassword}" autocomplete="new-password"><div class="field-error" th:errors="*{passwordConfirmed}"></div></div>
+                <button class="btn" type="submit">Change password</button>
+            </form>
+        </div>
+        <div class="card" id="addresses">
+            <h3>Saved addresses</h3>
+            <div th:each="a, st : ${me.addresses}" style="display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line-2)">
+                <div><b th:text="${a.fullName}"></b> <span class="pill" th:text="${a.zone.label}"></span><br><small class="muted" th:text="${a.oneLine()} + ' · ' + ${a.phone}"></small></div>
+                <form th:action="@{/account/addresses/{i}/delete(i=${st.index})}" method="post"><button class="btn danger sm" type="submit">Remove</button></form>
+            </div>
+            <p class="muted" th:if="${me.addresses.isEmpty()}">No saved addresses. They are saved automatically at checkout.</p>
+            <details style="margin-top:12px"><summary class="link" style="cursor:pointer">Add an address</summary>
+                <form th:action="@{/account/addresses}" th:object="${address}" method="post" style="margin-top:10px">
+                    <div class="grid-2">
+                        <div class="field"><label>Full name</label><input type="text" th:field="*{fullName}"><div class="field-error" th:errors="*{fullName}"></div></div>
+                        <div class="field"><label>Phone</label><input type="tel" th:field="*{phone}"><div class="field-error" th:errors="*{phone}"></div></div>
+                    </div>
+                    <div class="field"><label>Address</label><input type="text" th:field="*{line1}"><div class="field-error" th:errors="*{line1}"></div></div>
+                    <div class="grid-3">
+                        <div class="field"><label>Area</label><input type="text" th:field="*{area}"></div>
+                        <div class="field"><label>City</label><input type="text" th:field="*{city}"><div class="field-error" th:errors="*{city}"></div></div>
+                        <div class="field"><label>Zone</label><select th:field="*{zone}"><option value="INSIDE_DHAKA">Inside Dhaka</option><option value="OUTSIDE_DHAKA">Outside Dhaka</option></select></div>
+                    </div>
+                    <button class="btn" type="submit">Save address</button>
+                </form>
+            </details>
+        </div>
+        <div class="card">
+            <h3>Support tickets</h3>
+            <p class="muted" th:if="${tickets.isEmpty()}">No tickets. <a class="link" th:href="@{/support}">Contact support</a></p>
+            <div th:each="t : ${tickets}" style="padding:8px 0;border-bottom:1px solid var(--line-2)">
+                <b th:text="${t.subject}"></b> <span class="pill" th:text="${t.status.label}"></span>
+                <p class="muted" style="margin:4px 0" th:if="${t.reply}" th:text="'Reply: ' + ${t.reply}"></p>
+            </div>
+        </div>
+    </div>
+</main>
+<th:block th:replace="~{fragments/layout :: footer}"></th:block>
+<th:block th:replace="~{fragments/layout :: overlays}"></th:block>
+</body>
+</html>

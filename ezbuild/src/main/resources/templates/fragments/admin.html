@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<body>
+<nav class="side-nav" th:fragment="nav(active)">
+    <a th:href="@{/admin}" th:classappend="${active == 'dash'} ? 'on'" sec:authorize="hasAuthority('VIEW_REPORTS')">Dashboard</a>
+    <a th:href="@{/admin/products}" th:classappend="${active == 'products'} ? 'on'" sec:authorize="hasAuthority('PRODUCT_WRITE')">Products &amp; discounts</a>
+    <a th:href="@{/admin/orders}" th:classappend="${active == 'orders'} ? 'on'" sec:authorize="hasAuthority('ORDER_MANAGE')">Orders</a>
+    <a th:href="@{/admin/support}" th:classappend="${active == 'support'} ? 'on'" sec:authorize="hasAuthority('ORDER_MANAGE')">Support</a>
+    <a th:href="@{/admin/members}" th:classappend="${active == 'members'} ? 'on'" sec:authorize="hasRole('ADMIN')">Members</a>
+    <a th:href="@{/}">← Back to shop</a>
+</nav>
+</body>
+</html>

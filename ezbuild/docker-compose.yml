@@ -1,0 +1,33 @@
+# Local stack: MongoDB as a single-node replica set (needed for transactions), the store and the AI service.
+# docker compose up -d mongo     -> database only, run the app from the IDE
+# docker compose up --build      -> everything
+services:
+  mongo:
+    image: mongo:8
+    command: ["--replSet", "rs0", "--bind_ip_all"]
+    ports: ["27017:27017"]
+    volumes: ["mongo-data:/data/db"]
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "try { rs.status().ok } catch (e) { rs.initiate({_id:'rs0',members:[{_id:0,host:'localhost:27017'}]}).ok }"]
+      interval: 5s
+      timeout: 10s
+      retries: 20
+
+  ezbuild:
+    build: .
+    depends_on:
+      mongo: { condition: service_healthy }
+    ports: ["1010:1010"]
+    env_file: [.env]
+    environment:
+      MONGODB_URI: mongodb://mongo:27017/ezbuild?replicaSet=rs0&directConnection=true
+      SPRING_PROFILES_ACTIVE: local
+      ADVISOR_URL: http://ezbuild-ai:1020
+
+  ezbuild-ai:
+    build: ../ezbuild-ai
+    ports: ["1020:1020"]
+    env_file: [.env]
+
+volumes:
+  mongo-data:

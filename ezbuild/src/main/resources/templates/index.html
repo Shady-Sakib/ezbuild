@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('PC components & AI builds')}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: header}"></th:block>
+<th:block th:replace="~{fragments/layout :: flash}"></th:block>
+
+<section class="hero">
+    <div class="container">
+        <div>
+            <span class="pill sky">New · AI build assistant</span>
+            <h1 style="margin-top:14px">Tell us your budget.<br>We'll build your <em>perfect PC</em>.</h1>
+            <p class="lead">Chat in English, Bangla or Banglish. EZBuild plans three compatible builds from parts that are actually in stock, at today's prices, and adds them to your cart in one click.</p>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:22px">
+                <a class="btn sky lg" th:href="@{/assistant}">Start with the assistant</a>
+                <a class="btn ghost lg" th:href="@{/builder}">Build it myself</a>
+            </div>
+        </div>
+        <div class="hero-chat" aria-hidden="true">
+            <div class="bubble me">amar 1 lakh takar gaming pc lagbe, NVIDIA GPU</div>
+            <div class="bubble">Apnar ৳1,00,000 budget-e 3 ta compatible build dilam 👇</div>
+            <div class="bubble">
+                <b>Balanced · ৳94,680</b>
+                <div class="mini-build"><span>Ryzen 5 7600 + RTX 5060 8GB</span><span style="color:#7dd3fc">Compatible</span></div>
+                <div class="mini-build"><span>B650M · 16GB DDR5 · 1TB NVMe · 650W</span><span>৳5,320 left</span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="section-head"><h2>Shop by category</h2><a class="link" th:href="@{/products}">View all →</a></div>
+        <div class="cats">
+            <a class="cat" th:each="c : ${navCategories}" th:href="@{/products(category=${c.slug()})}">
+                <img th:src="@{/media/c/{s}.svg(s=${c.slug()})}" alt="" width="44" height="44">
+                <b th:text="${c.label}">CPU</b>
+                <small th:text="${categoryCounts.getOrDefault(c.name(), 0L)} + ' items'">0 items</small>
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="section" th:if="${!deals.isEmpty()}" style="padding-top:0">
+    <div class="container">
+        <div class="section-head"><h2>Today's deals</h2><a class="link" th:href="@{/products(sale=1,sort='discount')}">All deals →</a></div>
+        <div class="grid">
+            <th:block th:each="p : ${deals}"><th:block th:replace="~{fragments/layout :: card(${p})}"></th:block></th:block>
+        </div>
+    </div>
+</section>
+
+<section class="section" style="padding-top:0">
+    <div class="container">
+        <div class="section-head"><h2>Popular right now</h2><a class="link" th:href="@{/products}">Browse the shop →</a></div>
+        <div class="grid">
+            <th:block th:each="p : ${popular}"><th:block th:replace="~{fragments/layout :: card(${p})}"></th:block></th:block>
+        </div>
+    </div>
+</section>
+
+<section class="section" style="padding-top:0">
+    <div class="container feature-row">
+        <div class="feature"><span class="ic">AI</span><div><b>Builds that fit</b><br><small>Socket, RAM type, GPU length and PSU wattage are checked on every build.</small></div></div>
+        <div class="feature"><span class="ic">৳</span><div><b>Live prices</b><br><small>The assistant only quotes catalogue prices, discounts included.</small></div></div>
+        <div class="feature"><span class="ic">🚚</span><div><b>Fast delivery</b><br><small>৳60 inside Dhaka, ৳100 anywhere else in Bangladesh.</small></div></div>
+        <div class="feature"><span class="ic">✓</span><div><b>Pay your way</b><br><small>Cash on delivery, SSLCommerz (bKash, Nagad, cards) or Stripe.</small></div></div>
+    </div>
+</section>
+
+<th:block th:replace="~{fragments/layout :: footer}"></th:block>
+<th:block th:replace="~{fragments/layout :: overlays}"></th:block>
+</body>
+</html>

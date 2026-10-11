@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('Products · Admin')}"></head>
+<body>
+<th:block th:replace="~{fragments/layout :: header}"></th:block>
+<th:block th:replace="~{fragments/layout :: flash}"></th:block>
+<main class="container admin">
+    <nav th:replace="~{fragments/admin :: nav('products')}"></nav>
+    <section>
+        <div class="section-head"><h1>Products</h1><a class="btn sky" th:href="@{/admin/products/new}">+ New product</a></div>
+        <form th:action="@{/admin/products}" method="get" class="toolbar">
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <input type="search" name="q" th:value="${filter.q()}" placeholder="Search name, brand, SKU" style="width:240px">
+                <select name="category" style="width:auto"><option value="">All categories</option><option th:each="c : ${categories}" th:value="${c.slug()}" th:text="${c.label}" th:selected="${filter.category() == c}"></option></select>
+                <label class="check"><input type="checkbox" name="sale" value="1" th:checked="${filter.sale()}"> On discount</label>
+                <button class="btn ghost" type="submit">Filter</button>
+            </div>
+        </form>
+
+        <form th:action="@{/admin/products/discount}" method="post" id="bulk-form">
+            <div class="card flat" style="margin-bottom:14px">
+                <b>Discount %</b> <small class="muted">— applies to the ticked rows, or (if none are ticked) to a whole category and/or brand. 0 clears.</small>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;align-items:end">
+                    <div><label>Percent</label><input type="number" name="percent" min="0" max="90" value="10" style="width:90px" required></div>
+                    <div><label>Category</label><select name="category" style="width:auto"><option value="">—</option><option th:each="c : ${categories}" th:value="${c.slug()}" th:text="${c.label}"></option></select></div>
+                    <div><label>Brand</label><select name="brand" style="width:auto"><option value="">—</option><option th:each="b : ${brands}" th:value="${b.value()}" th:text="${b.value()}"></option></select></div>
+                    <div><label>From (optional)</label><input type="date" name="start"></div>
+                    <div><label>Until (optional)</label><input type="date" name="end"></div>
+                    <button class="btn" type="submit">Apply discount</button>
+                </div>
+            </div>
+            <div class="table-wrap">
+                <table class="table">
+                    <thead><tr><th><input type="checkbox" data-select-all aria-label="Select all"></th><th></th><th>SKU</th><th>Name</th><th>Price</th><th>Discount</th><th>Sale price</th><th>Stock</th><th>Status</th><th></th></tr></thead>
+                    <tbody>
+                    <tr th:each="p : ${page.content()}">
+                        <td><input type="checkbox" name="ids" th:value="${p.id}" data-row aria-label="Select"></td>
+                        <td><img class="thumb" th:with="imgUrl=${@media.product(p.id, p.category)}" th:src="${imgUrl}" alt=""></td>
+                        <td><code th:text="${p.id}"></code></td>
+                        <td><span th:text="${p.name}"></span><br><small class="muted" th:text="${p.category.label} + ' · ' + ${p.brand}"></small></td>
+                        <td th:text="${@fmt.tk(p.price)}"></td>
+                        <td><span class="pill sky" th:if="${p.discountPercent > 0}" th:text="${p.discountPercent} + '%'"></span><small class="muted" th:if="${p.discountEnd != null}" th:text="' until ' + ${p.discountEnd}"></small></td>
+                        <td><b th:text="${@fmt.tk(p.effectivePrice())}"></b></td>
+                        <td><span class="pill" th:classappend="${p.stock == 0} ? 'bad' : (${p.lowStock()} ? 'warn' : 'ok')" th:text="${p.stock}"></span></td>
+                        <td><span class="pill" th:classappend="${p.active} ? 'ok' : 'muted'" th:text="${p.active} ? 'Live' : 'Hidden'"></span></td>
+                        <td style="white-space:nowrap"><a class="btn ghost sm" th:href="@{/admin/products/{id}/edit(id=${p.id})}">Edit</a>
+                            <button class="btn ghost sm" type="submit" th:formaction="@{/admin/products/{id}/toggle(id=${p.id})}" formnovalidate th:text="${p.active} ? 'Hide' : 'Show'">Hide</button></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+        <nav class="pager" th:if="${page.totalPages() > 1}">
+            <a th:each="i : ${#numbers.sequence(0, page.totalPages() - 1)}" th:href="@{/admin/products(page=${i},q=${filter.q()},category=${filter.category() != null ? filter.category().slug() : null})}" th:text="${i + 1}" th:classappend="${i == page.page()} ? 'on'"></a>
+        </nav>
+    </section>
+</main>
+<th:block th:replace="~{fragments/layout :: overlays}"></th:block>
+</body>
+</html>
