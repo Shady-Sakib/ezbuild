@@ -50,7 +50,7 @@ import java.util.stream.Collectors;
 public class AssistantService {
 
     private static final int DAILY_LIMIT = 100;
-    private static final int WEB_WAIT_SECONDS = 15;
+    private static final int WEB_WAIT_SECONDS = 10;
 
     private final AdvisorClient advisor;
     private final RegexExtractor regexExtractor;
@@ -81,7 +81,11 @@ public class AssistantService {
         CompletableFuture<String> webFuture = regex.intent() == Intent.OFF_TOPIC || text.length() < 12
                 ? CompletableFuture.completedFuture("")
                 : CompletableFuture.supplyAsync(() -> webNotes(text));
-        BuildRequirements extracted = advisor.extract(text, history).map(r -> merge(r, regex)).orElse(regex);
+        // A plain "budget + build" message is fully understood by the regex, so skip that AI call
+        boolean regexEnough = history.isEmpty() && regex.intent() == Intent.BUILD_FROM_BUDGET && regex.budgetBdt() != null
+                && regex.lockedParts().isEmpty();
+        BuildRequirements extracted = regexEnough ? regex
+                : advisor.extract(text, history).map(r -> merge(r, regex)).orElse(regex);
         boolean degraded = "degraded".equals(advisor.mode());
 
         // 2. follow-ups ("better CPU", "Intel instead", "cheaper") inherit the previous budget and use case
