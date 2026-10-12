@@ -8,6 +8,7 @@ public record AppProperties(
         String baseUrl,
         String uploadDir,
         boolean seed,
+        boolean demoLogins,
         String seedAdminPassword,
         String rememberMeKey,
         String corsOrigins,

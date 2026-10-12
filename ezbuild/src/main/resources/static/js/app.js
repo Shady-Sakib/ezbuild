@@ -243,5 +243,13 @@
     document.addEventListener('click', (e) => { if (!e.target.closest('.search')) box.classList.remove('open'); });
   }
 
+  // Demo sign-in buttons: fill the form with that account and submit
+  $$('[data-quick-login]').forEach((b) => b.addEventListener('click', () => {
+    const form = b.closest('.card').querySelector('form');
+    form.querySelector('#username').value = b.dataset.user;
+    form.querySelector('#password').value = b.dataset.pass;
+    form.submit();
+  }));
+
   window.EZ = { api, toast, money, esc, addMany, openDrawer, setCount, signedIn, $, $$ };
 })();

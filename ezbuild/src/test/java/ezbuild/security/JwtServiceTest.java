@@ -24,7 +24,7 @@ class JwtServiceTest {
 
     @BeforeEach
     void setUp() {
-        AppProperties props = new AppProperties("http://localhost", "uploads", false, "x", "k", "", false, "a@b.c",
+        AppProperties props = new AppProperties("http://localhost", "uploads", false, false, "x", "k", "", false, "a@b.c",
                 new AppProperties.Jwt(SECRET, 15, 7), new AppProperties.Shipping(60, 100),
                 new AppProperties.Payment(50, 30), new AppProperties.SslCommerz("", "", "", 500000),
                 new AppProperties.Stripe("", "", 122), new AppProperties.Advisor("local", "", ""));

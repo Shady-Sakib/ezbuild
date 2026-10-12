@@ -1,5 +1,6 @@
 package ezbuild.controller;
 
+import ezbuild.config.AppProperties;
 import ezbuild.dto.SignUpForm;
 import ezbuild.service.BusinessException;
 import ezbuild.service.UserService;
@@ -15,18 +16,28 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 public class AuthController {
 
     private final UserService userService;
     private final CurrentUser currentUser;
+    private final AppProperties props;
+
+    /** A demo account shown as a one-click button on the sign-in page (seeded accounts only). */
+    public record DemoLogin(String label, String role, String username, String password) { }
 
     @GetMapping("/sign-in")
     public String signIn(@RequestParam(required = false) String error, @RequestParam(required = false) String logout,
                          Authentication authentication, Model model) {
         if (currentUser.from(authentication) != null) return "redirect:/";
         model.addAttribute("loggedOut", logout != null);
+        model.addAttribute("demoLogins", props.demoLogins() && props.seed() ? List.of(
+                new DemoLogin("Admin", "admin", "admin", props.seedAdminPassword()),
+                new DemoLogin("Staff", "staff", "staff", "Staff@123"),
+                new DemoLogin("Customer", "user", "rahim", "User@1234")) : List.of());
         if (error != null) {
             model.addAttribute("error", switch (error) {
                 case "locked" -> "Too many wrong attempts. Your account is locked for 15 minutes.";
