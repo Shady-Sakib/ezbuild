@@ -5,20 +5,55 @@
 <th:block th:replace="~{fragments/layout :: header}"></th:block>
 <main class="container page">
     <h1>Compare</h1>
-    <p class="muted">Add up to three products: <code>/compare?ids=gpu-03,gpu-06,gpu-09</code>, or use "Compare" on product pages and keep adding.</p>
-    <div class="empty" th:if="${products.isEmpty()}"><a class="btn" th:href="@{/products}">Choose products</a></div>
+    <p class="muted" th:if="${compareCategory != null}"
+       th:text="'Category: ' + ${compareCategory.label} + '. Compare up to 3 products from this category side by side.'">Comparing</p>
+
+    <!-- nothing chosen yet: pick a category first -->
+    <div th:if="${compareCategory == null}" class="card">
+        <h3 style="margin-top:0">What would you like to compare?</h3>
+        <p class="muted">Pick a category, then choose up to three products to see them side by side. You can also press "Compare" on any product page.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <a class="chip" th:each="c : ${categories}" th:href="@{/compare(category=${c.slug()})}" th:text="${c.label}">Category</a>
+        </div>
+    </div>
+
+    <!-- picker: other products in the same category -->
+    <form th:if="${compareCategory != null && !candidates.isEmpty()}" class="compare-pick card" th:action="@{/compare}" method="get">
+        <input type="hidden" name="ids" th:value="${idsCsv}">
+        <label for="cmp-add" th:text="${products.isEmpty()} ? 'Choose a product to start' : 'Add another product to compare'">Add</label>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <select id="cmp-add" name="add" data-autosubmit required>
+                <option value="">Select a product…</option>
+                <option th:each="c : ${candidates}" th:value="${c.id}" th:text="${c.name} + ' — ' + ${@fmt.tk(c.effectivePrice())}">Product</option>
+            </select>
+            <button class="btn sm" type="submit">Add to comparison</button>
+        </div>
+    </form>
+
     <div class="table-wrap" th:if="${!products.isEmpty()}">
-        <table class="table">
-            <thead><tr><th></th><th th:each="p : ${products}"><a th:href="@{/products/{id}(id=${p.id})}" th:text="${p.name}"></a></th></tr></thead>
+        <table class="table compare-table">
+            <thead>
+            <tr>
+                <th></th>
+                <th th:each="p : ${products}">
+                    <a th:href="@{/products/{id}(id=${p.id})}" th:text="${p.name}">Name</a>
+                    <div><a class="link" style="font-size:.8rem" th:href="${removeLinks.get(p.id)}">Remove</a></div>
+                </th>
+            </tr>
+            </thead>
             <tbody>
-            <tr><th>Image</th><td th:each="p : ${products}"><img class="thumb" style="width:90px;height:90px" th:with="imgUrl=${@media.product(p.id, p.category)}" th:src="${imgUrl}" alt=""></td></tr>
+            <tr><th>Image</th><td th:each="p : ${products}"><img class="thumb" style="width:110px;height:110px" th:with="imgUrl=${@media.product(p.id, p.category)}" th:src="${imgUrl}" th:alt="${p.name}"></td></tr>
             <tr><th>Price</th><td th:each="p : ${products}"><b th:text="${@fmt.tk(p.effectivePrice())}"></b></td></tr>
             <tr><th>Brand</th><td th:each="p : ${products}" th:text="${p.brand}"></td></tr>
             <tr><th>Stock</th><td th:each="p : ${products}" th:text="${p.inStock()} ? 'In stock' : 'Out of stock'"></td></tr>
-            <tr th:each="k : ${specKeys}"><th th:text="${@fmt.specLabel(k)}"></th><td th:each="p : ${products}" th:text="${p.spec(k) != null ? p.spec(k) : '—'}"></td></tr>
+            <tr th:each="k : ${specKeys}" th:classappend="${differing.contains(k)} ? 'diff'">
+                <th th:text="${@fmt.specLabel(k)}">Spec</th>
+                <td th:each="p : ${products}" th:text="${p.specs.get(k) != null ? @fmt.specText(p.specs.get(k)) : '—'}"></td>
+            </tr>
             <tr><th></th><td th:each="p : ${products}"><button class="btn sm sky" type="button" th:data-add="${p.id}" th:disabled="${!p.inStock()}">Add to cart</button></td></tr>
             </tbody>
         </table>
+        <p class="muted" style="font-size:.84rem" th:if="${products.size() > 1}">Highlighted rows are where the products differ.</p>
     </div>
 </main>
 <th:block th:replace="~{fragments/layout :: footer}"></th:block>

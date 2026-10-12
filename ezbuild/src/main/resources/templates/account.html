@@ -12,7 +12,7 @@
             <h3>Profile</h3>
             <form th:action="@{/account/profile}" th:object="${profile}" method="post">
                 <div class="field" th:classappend="${#fields.hasErrors('displayName')} ? 'has-error'"><label for="dn">Display name</label><input id="dn" type="text" th:field="*{displayName}"><div class="field-error" th:errors="*{displayName}"></div></div>
-                <div class="field" th:classappend="${#fields.hasErrors('phone')} ? 'has-error'"><label for="ph">Mobile</label><input id="ph" type="tel" th:field="*{phone}"><div class="field-error" th:errors="*{phone}"></div></div>
+                <div class="field" th:classappend="${#fields.hasErrors('phone')} ? 'has-error'"><label for="ph">Mobile</label><input id="ph" type="tel" th:field="*{phone}" required><div class="field-error" th:errors="*{phone}"></div></div>
                 <button class="btn" type="submit">Save profile</button>
             </form>
         </div>
@@ -35,13 +35,13 @@
             <details style="margin-top:12px"><summary class="link" style="cursor:pointer">Add an address</summary>
                 <form th:action="@{/account/addresses}" th:object="${address}" method="post" style="margin-top:10px">
                     <div class="grid-2">
-                        <div class="field"><label>Full name</label><input type="text" th:field="*{fullName}"><div class="field-error" th:errors="*{fullName}"></div></div>
-                        <div class="field"><label>Phone</label><input type="tel" th:field="*{phone}"><div class="field-error" th:errors="*{phone}"></div></div>
+                        <div class="field"><label>Full name<span class="req" aria-hidden="true">*</span></label><input type="text" th:field="*{fullName}" required><div class="field-error" th:errors="*{fullName}"></div></div>
+                        <div class="field"><label>Phone<span class="req" aria-hidden="true">*</span></label><input type="tel" th:field="*{phone}" required><div class="field-error" th:errors="*{phone}"></div></div>
                     </div>
-                    <div class="field"><label>Address</label><input type="text" th:field="*{line1}"><div class="field-error" th:errors="*{line1}"></div></div>
+                    <div class="field"><label>Address<span class="req" aria-hidden="true">*</span></label><input type="text" th:field="*{line1}" required><div class="field-error" th:errors="*{line1}"></div></div>
                     <div class="grid-3">
                         <div class="field"><label>Area</label><input type="text" th:field="*{area}"></div>
-                        <div class="field"><label>City</label><input type="text" th:field="*{city}"><div class="field-error" th:errors="*{city}"></div></div>
+                        <div class="field"><label>City<span class="req" aria-hidden="true">*</span></label><input type="text" th:field="*{city}" required><div class="field-error" th:errors="*{city}"></div></div>
                         <div class="field"><label>Zone</label><select th:field="*{zone}"><option value="INSIDE_DHAKA">Inside Dhaka</option><option value="OUTSIDE_DHAKA">Outside Dhaka</option></select></div>
                     </div>
                     <button class="btn" type="submit">Save address</button>

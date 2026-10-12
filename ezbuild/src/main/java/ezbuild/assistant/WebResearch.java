@@ -75,7 +75,9 @@ public class WebResearch {
         try {
             Map<String, Object> body = Map.of(
                     "systemInstruction", Map.of("parts", List.of(Map.of("text", SYSTEM))),
-                    "contents", List.of(Map.of("role", "user", "parts", List.of(Map.of("text", question)))),
+                    "contents", List.of(Map.of("role", "user", "parts", List.of(Map.of("text",
+                            "Today's date: " + java.time.LocalDate.now(java.time.ZoneId.of("Asia/Dhaka"))
+                                    + ". Search for the latest information; newer sources win.\n\n" + question)))),
                     "tools", List.of(Map.of("google_search", Map.of())),
                     "generationConfig", Map.of("temperature", 0.2));
             @SuppressWarnings("unchecked")

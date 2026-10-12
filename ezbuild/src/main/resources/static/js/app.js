@@ -96,7 +96,8 @@
     try {
       const cart = await api('POST', '/api/cart/items', { productId, qty });
       setCount(cart.count);
-      toast('Added to cart');
+      const line = (cart.lines || []).find((l) => l.productId === productId);
+      toast(line ? `Added to cart: ${line.name}` : 'Added to cart');
       renderDrawer(cart);
     } catch (e) {
       toast(e.message, 'err');
@@ -125,8 +126,12 @@
 
     const remove = e.target.closest('[data-line-remove]');
     if (remove) {
-      const id = remove.closest('[data-line]').dataset.line;
-      renderDrawer(await api('DELETE', '/api/cart/items/' + encodeURIComponent(id)));
+      const row = remove.closest('[data-line]');
+      const name = row.querySelector('a')?.textContent || 'Item';
+      try {
+        renderDrawer(await api('DELETE', '/api/cart/items/' + encodeURIComponent(row.dataset.line)));
+        toast(`Removed from cart: ${name}`);
+      } catch (err) { toast(err.message, 'err'); }
       return;
     }
 
@@ -174,7 +179,10 @@
   document.addEventListener('change', async (e) => {
     if (e.target.matches('[data-line-qty]')) {
       const id = e.target.closest('[data-line]').dataset.line;
-      renderDrawer(await api('PATCH', '/api/cart/items/' + encodeURIComponent(id), { qty: +e.target.value }));
+      try {
+        renderDrawer(await api('PATCH', '/api/cart/items/' + encodeURIComponent(id), { qty: +e.target.value }));
+        toast('Cart updated');
+      } catch (err) { toast(err.message, 'err'); }
     }
     if (e.target.matches('[data-autosubmit]')) e.target.form.submit();
     if (e.target.matches('[data-select-all]')) $$('[data-row]').forEach((c) => { c.checked = e.target.checked; });
@@ -186,6 +194,9 @@
   });
 
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDrawer(); });
+
+  // success flash messages (after a form post) show as a toast instead of a banner
+  $$('.flash.success').forEach((f) => { toast(f.textContent.trim()); f.remove(); });
 
   // broken/missing product image -> category placeholder (CSP blocks inline onerror)
   document.addEventListener('error', (e) => {

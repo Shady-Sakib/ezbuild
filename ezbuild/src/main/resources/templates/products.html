@@ -27,7 +27,7 @@
                             <input type="range" data-lo th:min="${facets.minPrice()}" th:max="${facets.maxPrice()}" step="500" th:value="${filter.min() != null ? filter.min() : facets.minPrice()}" aria-label="Minimum price">
                             <input type="range" data-hi th:min="${facets.minPrice()}" th:max="${facets.maxPrice()}" step="500" th:value="${filter.max() != null ? filter.max() : facets.maxPrice()}" aria-label="Maximum price">
                         </div>
-                        <div class="row"><input type="number" name="min" placeholder="Min" th:value="${filter.min()}"><input type="number" name="max" placeholder="Max" th:value="${filter.max()}"></div>
+                        <div class="row"><input type="number" name="min" placeholder="Min" min="0" step="1" inputmode="numeric" data-nonneg th:value="${filter.min()}"><input type="number" name="max" placeholder="Max" min="0" step="1" inputmode="numeric" data-nonneg th:value="${filter.max()}"></div>
                     </div>
                 </div>
                 <div class="fgroup">
@@ -67,8 +67,8 @@
                     <label for="sort" class="sr-only">Sort</label>
                     <select id="sort" data-sort>
                         <option value="relevance" th:selected="${filter.sort() == 'relevance'}">Most popular</option>
-                        <option value="price_asc" th:selected="${filter.sort() == 'price_asc'}">Price: low to high</option>
-                        <option value="price_desc" th:selected="${filter.sort() == 'price_desc'}">Price: high to low</option>
+                        <option value="price_asc" th:selected="${filter.sort() == 'price_asc'}">Price: Low to High</option>
+                        <option value="price_desc" th:selected="${filter.sort() == 'price_desc'}">Price: High to Low</option>
                         <option value="newest" th:selected="${filter.sort() == 'newest'}">Newest</option>
                         <option value="discount" th:selected="${filter.sort() == 'discount'}">Biggest discount</option>
                     </select>

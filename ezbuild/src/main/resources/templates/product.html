@@ -32,7 +32,7 @@
                 <div class="qty" data-qty><button type="button" data-dec aria-label="Less">−</button><input type="number" value="1" min="1" max="10" aria-label="Quantity"><button type="button" data-inc aria-label="More">+</button></div>
                 <button class="btn sky lg" type="button" th:data-add="${product.id}" th:disabled="${!product.inStock()}">Add to cart</button>
                 <button class="btn ghost lg" type="button" th:data-wish="${product.id}" th:text="${inWishlist} ? '♥ Saved' : '♡ Wishlist'">♡ Wishlist</button>
-                <a class="btn ghost lg" th:href="@{/compare(ids=${product.id})}" th:data-compare="${product.id}">Compare</a>
+                <a class="btn ghost lg" th:href="@{/compare(ids=${product.id})}">Compare</a>
             </div>
             <div class="card flat" th:if="${product.category.buildPart}">
                 <b>Not sure it fits?</b> <span class="muted">Open it in the builder for a live compatibility check, or ask the assistant to build around it.</span>

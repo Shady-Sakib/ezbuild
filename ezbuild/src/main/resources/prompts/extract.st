@@ -21,6 +21,8 @@ Rules:
 - Follow-ups: when earlier messages already contain a build and the customer asks to change it ("better CPU in this budget",
   "make it cheaper", "Intel instead", "more storage"), use intent BUILD_FROM_BUDGET. Keep budgetBdt null unless they
   state a new number (the store reuses the earlier budget).
+- "card" means graphics card. Asking which single part to buy ("a card that supports DLSS 5", "best monitor for 20k")
+  without wanting a whole PC is CATALOG_QUESTION; put feature or model words in lockedParts only if they are model names.
 - A question comparing parts ("is 7600 better than 12400F?", "5060 vs 9060 XT") is EXPLAIN; put the model words in lockedParts.
 - needsClarification: true only when a build is wanted but the budget is missing; then put one short question in clarifyingQuestion.
 

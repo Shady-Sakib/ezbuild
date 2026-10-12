@@ -12,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -34,7 +36,7 @@ public class PaymentCallbackController {
      * No flash attributes: they need the session, and a cross-site POST would create a new one and log the
      * customer out. The outcome travels as ?pay=...
      */
-    @PostMapping("/payment/sslcommerz/success")
+    @RequestMapping(value = "/payment/sslcommerz/success", method = {RequestMethod.POST, RequestMethod.GET})
     public String success(@RequestParam Map<String, String> params) {
         try {
             Payment p = paymentService.confirmSslCommerz(params);
@@ -50,12 +52,12 @@ public class PaymentCallbackController {
         }
     }
 
-    @PostMapping("/payment/sslcommerz/fail")
+    @RequestMapping(value = "/payment/sslcommerz/fail", method = {RequestMethod.POST, RequestMethod.GET})
     public String fail(@RequestParam(name = "tran_id", defaultValue = "") String tranId) {
         return closeAttempt(tranId, false);
     }
 
-    @PostMapping("/payment/sslcommerz/cancel")
+    @RequestMapping(value = "/payment/sslcommerz/cancel", method = {RequestMethod.POST, RequestMethod.GET})
     public String cancel(@RequestParam(name = "tran_id", defaultValue = "") String tranId) {
         return closeAttempt(tranId, true);
     }

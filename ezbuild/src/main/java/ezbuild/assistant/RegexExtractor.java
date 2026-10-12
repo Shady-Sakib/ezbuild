@@ -44,7 +44,7 @@ public class RegexExtractor {
         for (String b : BRANDS) {
             if (Pattern.compile("\\b" + Pattern.quote(b) + "\\b").matcher(lower).find()) brands.add(b);
         }
-        if (lower.matches(".*\\b(rtx|gtx|geforce)\\b.*") && !brands.contains("nvidia")) brands.add("nvidia");
+        if (lower.matches(".*\\b(rtx|gtx|geforce|dlss)\\b.*") && !brands.contains("nvidia")) brands.add("nvidia");
 
         Set<String> parts = new LinkedHashSet<>();
         Matcher m = PART.matcher(lower);

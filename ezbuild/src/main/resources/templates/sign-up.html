@@ -6,12 +6,13 @@
 <main class="auth">
     <div class="card">
         <h1>Create your account</h1>
+        <p class="req-note">Fields marked <span class="req" aria-hidden="true">*</span> are required.</p>
         <form th:action="@{/sign-up}" th:object="${form}" method="post" style="margin-top:12px">
             <div class="flash error" th:if="${#fields.hasGlobalErrors()}" th:each="e : ${#fields.globalErrors()}" th:text="${e}"></div>
-            <div class="field" th:classappend="${#fields.hasErrors('username')} ? 'has-error'"><label for="u">Username</label><input id="u" type="text" th:field="*{username}" autocomplete="username"><div class="field-error" th:errors="*{username}"></div></div>
-            <div class="field" th:classappend="${#fields.hasErrors('email')} ? 'has-error'"><label for="e">Email</label><input id="e" type="email" th:field="*{email}" autocomplete="email"><div class="field-error" th:errors="*{email}"></div></div>
-            <div class="field" th:classappend="${#fields.hasErrors('password')} ? 'has-error'"><label for="p">Password</label><input id="p" type="password" th:field="*{password}" autocomplete="new-password"><div class="field-error" th:errors="*{password}"></div></div>
-            <div class="field" th:classappend="${#fields.hasErrors('passwordConfirmed')} ? 'has-error'"><label for="c">Confirm password</label><input id="c" type="password" th:field="*{confirmPassword}" autocomplete="new-password"><div class="field-error" th:errors="*{passwordConfirmed}"></div></div>
+            <div class="field" th:classappend="${#fields.hasErrors('username')} ? 'has-error'"><label for="u">Username<span class="req" aria-hidden="true">*</span></label><input id="u" required type="text" th:field="*{username}" autocomplete="username"><div class="field-error" th:errors="*{username}"></div></div>
+            <div class="field" th:classappend="${#fields.hasErrors('email')} ? 'has-error'"><label for="e">Email<span class="req" aria-hidden="true">*</span></label><input id="e" required type="email" th:field="*{email}" autocomplete="email"><div class="field-error" th:errors="*{email}"></div></div>
+            <div class="field" th:classappend="${#fields.hasErrors('password')} ? 'has-error'"><label for="p">Password<span class="req" aria-hidden="true">*</span></label><input id="p" required type="password" th:field="*{password}" autocomplete="new-password"><div class="field-error" th:errors="*{password}"></div></div>
+            <div class="field" th:classappend="${#fields.hasErrors('passwordConfirmed')} ? 'has-error'"><label for="c">Confirm password<span class="req" aria-hidden="true">*</span></label><input id="c" required type="password" th:field="*{confirmPassword}" autocomplete="new-password"><div class="field-error" th:errors="*{passwordConfirmed}"></div></div>
             <button class="btn sky block lg" type="submit">Create account</button>
         </form>
         <p style="margin-top:16px;text-align:center" class="muted">Already have one? <a class="link" th:href="@{/sign-in}">Sign in</a></p>

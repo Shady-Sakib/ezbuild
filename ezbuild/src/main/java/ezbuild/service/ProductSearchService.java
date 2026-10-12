@@ -94,8 +94,12 @@ public class ProductSearchService {
             for (String token : f.q().trim().split("\\s+")) {
                 if (token.isBlank()) continue;
                 Pattern p = Pattern.compile(Pattern.quote(token), Pattern.CASE_INSENSITIVE);
-                and.add(new Criteria().orOperator(Criteria.where("name").regex(p), Criteria.where("brand").regex(p),
-                        Criteria.where("_id").regex(p)));
+                List<Criteria> any = new ArrayList<>(List.of(Criteria.where("name").regex(p),
+                        Criteria.where("brand").regex(p), Criteria.where("_id").regex(p)));
+                // category words too: "moni", "monitors", "graphics", "processor" find the whole category
+                List<ProductCategory> cats = categoriesMatching(token);
+                if (!cats.isEmpty()) any.add(Criteria.where("category").in(cats));
+                and.add(new Criteria().orOperator(any));
             }
         }
         f.specs().forEach((key, values) -> {
@@ -104,6 +108,19 @@ public class ProductSearchService {
             }
         });
         return new Criteria().andOperator(and);
+    }
+
+    /** Categories whose label or name contains the word (plural "s" ignored); at least 3 letters. */
+    static List<ProductCategory> categoriesMatching(String token) {
+        String t = token.toLowerCase(java.util.Locale.ROOT);
+        if (t.length() > 3 && t.endsWith("s")) t = t.substring(0, t.length() - 1);
+        if (t.length() < 3) return List.of();
+        final String w = t;
+        return java.util.Arrays.stream(ProductCategory.values())
+                .filter(c -> c.getLabel().toLowerCase(java.util.Locale.ROOT).contains(w)
+                        || c.name().toLowerCase(java.util.Locale.ROOT).contains(w)
+                        || c.getCode().equalsIgnoreCase(w))
+                .toList();
     }
 
     /** URL values are strings but stored specs may be numbers or booleans, so match every form. */

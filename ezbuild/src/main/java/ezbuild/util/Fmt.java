@@ -116,6 +116,10 @@ public class Fmt {
         };
     }
 
+    public String specText(Object v) {
+        return specValue(v);
+    }
+
     public static String specValue(Object v) {
         if (v instanceof Boolean b) return b ? "Yes" : "No";
         return String.valueOf(v);

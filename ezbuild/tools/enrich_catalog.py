@@ -45,21 +45,22 @@ CPU = {
 PMAX = {"cpu-01":88,"cpu-02":88,"cpu-03":88,"cpu-04":88,"cpu-05":88,"cpu-06":88,"cpu-07":162,"cpu-08":88,
         "cpu-09":90,"cpu-10":134,"cpu-11":89,"cpu-12":117,"cpu-13":148,"cpu-14":181,"cpu-15":253,"cpu-16":88,
         "cpu-17":88,"cpu-18":148,"cpu-19":88,"cpu-20":142}
+# RTX 50 (Blackwell) cards support DLSS 5 neural rendering (launched 3 Sep 2026); RTX 40 support announced, not dated
 # id: chip, arch, vram, vramtype, bus, boost, tdp, len, psu, rt, upscaler, gaming, note
 GPU = {
  "gpu-01":("GT 1030","Pascal",2,"GDDR5",64,1468,30,170,300,False,"none",8,"display output and very light games only"),
  "gpu-02":("GTX 1660 Ti","Turing",6,"GDDR6",192,1770,120,230,450,False,"FSR (game support)",30,"older 1080p medium-settings card"),
  "gpu-03":("Radeon RX 9050","RDNA 4",8,"GDDR6",128,2900,130,240,500,True,"FSR 4",48,"entry 1080p gaming"),
- "gpu-04":("GeForce RTX 5050","Blackwell",8,"GDDR6",128,2570,130,205,550,True,"DLSS 4",46,"entry 1080p gaming with DLSS 4"),
+ "gpu-04":("GeForce RTX 5050","Blackwell",8,"GDDR6",128,2570,130,205,550,True,"DLSS 4 + DLSS 5",46,"entry 1080p gaming with DLSS 4"),
  "gpu-05":("Radeon RX 7600","RDNA 3",8,"GDDR6",128,2655,165,240,550,True,"FSR 3",45,"1080p high settings"),
- "gpu-06":("GeForce RTX 5060","Blackwell",8,"GDDR7",128,2497,145,230,550,True,"DLSS 4",55,"1080p ultra / high refresh"),
- "gpu-07":("GeForce RTX 5060","Blackwell",8,"GDDR7",128,2497,145,250,550,True,"DLSS 4",55,"1080p ultra / high refresh"),
- "gpu-08":("GeForce RTX 5060 Ti","Blackwell",8,"GDDR7",128,2572,180,300,600,True,"DLSS 4",64,"fast 1080p and entry 1440p"),
+ "gpu-06":("GeForce RTX 5060","Blackwell",8,"GDDR7",128,2497,145,230,550,True,"DLSS 4 + DLSS 5",55,"1080p ultra / high refresh"),
+ "gpu-07":("GeForce RTX 5060","Blackwell",8,"GDDR7",128,2497,145,250,550,True,"DLSS 4 + DLSS 5",55,"1080p ultra / high refresh"),
+ "gpu-08":("GeForce RTX 5060 Ti","Blackwell",8,"GDDR7",128,2572,180,300,600,True,"DLSS 4 + DLSS 5",64,"fast 1080p and entry 1440p"),
  "gpu-09":("Radeon RX 9060 XT","RDNA 4",16,"GDDR6",128,3130,182,290,600,True,"FSR 4",68,"1440p gaming with plenty of VRAM"),
- "gpu-10":("GeForce RTX 5060 Ti","Blackwell",8,"GDDR7",128,2572,180,250,600,True,"DLSS 4",64,"fast 1080p and entry 1440p"),
+ "gpu-10":("GeForce RTX 5060 Ti","Blackwell",8,"GDDR7",128,2572,180,250,600,True,"DLSS 4 + DLSS 5",64,"fast 1080p and entry 1440p"),
  "gpu-11":("Radeon RX 9070 GRE","RDNA 4",12,"GDDR6",192,2790,220,300,650,True,"FSR 4",80,"strong 1440p high-refresh gaming"),
  "gpu-12":("Radeon RX 9070","RDNA 4",16,"GDDR6",256,2520,220,330,700,True,"FSR 4",88,"1440p ultra and entry 4K"),
- "gpu-13":("GeForce RTX 5060 Ti","Blackwell",16,"GDDR7",128,2572,180,250,600,True,"DLSS 4",66,"1440p and AI/creator work that needs VRAM"),
+ "gpu-13":("GeForce RTX 5060 Ti","Blackwell",16,"GDDR7",128,2572,180,250,600,True,"DLSS 4 + DLSS 5",66,"1440p and AI/creator work that needs VRAM"),
 }
 MB = {  # chipset, m2, wifi, slots
  "mb-01":("A520",1,False,2),"mb-02":("B450",1,False,2),"mb-03":("B550",2,False,2),"mb-04":("B550",2,True,4),

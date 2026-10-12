@@ -80,6 +80,16 @@
     box.innerHTML = chips.join('');
   }
 
+  // prices can't go below zero: clean typed/pasted values before they reach the URL
+  form.addEventListener('input', (e) => {
+    if (!e.target.matches('[data-nonneg]')) return;
+    const v = e.target.value;
+    if (v !== '' && (+v < 0 || v.includes('-'))) e.target.value = String(Math.abs(Math.trunc(+v)) || '');
+  }, true);
+  form.addEventListener('keydown', (e) => {
+    if (e.target.matches('[data-nonneg]') && ['-', 'e', 'E', '+'].includes(e.key)) e.preventDefault();
+  }, true);
+
   // dual-thumb price slider bound to the min/max inputs
   const range = $('.range');
   const lo = $('[data-lo]'), hi = $('[data-hi]'), fill = $('.slider .fill');

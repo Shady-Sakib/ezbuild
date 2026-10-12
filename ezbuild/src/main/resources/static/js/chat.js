@@ -13,6 +13,8 @@
   try { sessionId = sessionStorage.getItem('ezb-chat'); } catch (_) { sessionId = null; }
   let busy = false;
 
+  // Only scrolls when the user sends (so their message is visible) or a chat is opened.
+  // Replies never move the view: the user reads on and scrolls down themselves.
   const scroll = () => { log.scrollTop = log.scrollHeight; };
 
   // Minimal safe Markdown for assistant replies: escape HTML first, then **bold**, headings and bullets.
@@ -28,7 +30,6 @@
     el.className = 'msg ' + role;
     if (role === 'assistant') el.innerHTML = md(text); else el.textContent = text;
     log.appendChild(el);
-    scroll();
     return el;
   }
 
@@ -56,7 +57,6 @@
       } catch (e) { toast(e.message, 'err'); }
     });
     log.appendChild(el);
-    scroll();
   }
 
   function suggestions(list) {
@@ -101,6 +101,7 @@
       msgs.forEach((m) => { bubble(m.role, m.text); (m.builds || []).forEach(buildCard); });
       const last = msgs[msgs.length - 1];
       suggestions(last ? last.suggestions : []);
+      scroll();
     } catch (_) { sessionId = null; greet(); }
   }
 

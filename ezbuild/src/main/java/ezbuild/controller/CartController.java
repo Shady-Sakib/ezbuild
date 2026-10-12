@@ -44,20 +44,24 @@ public class CartController {
     }
 
     @PostMapping("/cart/update")
-    public String update(@RequestParam String productId, @RequestParam int qty, Authentication authentication) {
+    public String update(@RequestParam String productId, @RequestParam int qty, Authentication authentication,
+                         RedirectAttributes ra) {
         cartService.setQty(currentUser.require(authentication).getId(), productId, qty);
+        ra.addFlashAttribute("success", "Cart updated.");
         return "redirect:/cart";
     }
 
     @PostMapping("/cart/remove")
-    public String remove(@RequestParam String productId, Authentication authentication) {
+    public String remove(@RequestParam String productId, Authentication authentication, RedirectAttributes ra) {
         cartService.remove(currentUser.require(authentication).getId(), productId);
+        ra.addFlashAttribute("success", "Removed from cart.");
         return "redirect:/cart";
     }
 
     @PostMapping("/cart/clear")
-    public String clear(Authentication authentication) {
+    public String clear(Authentication authentication, RedirectAttributes ra) {
         cartService.clear(currentUser.require(authentication).getId());
+        ra.addFlashAttribute("success", "Cart cleared.");
         return "redirect:/cart";
     }
 

@@ -112,10 +112,15 @@ public class AssistantService {
                     break;
                 }
                 if (req.budgetBdt() == null) {
-                    reply = advisor.explain(text, context(conversation, "The customer wants a PC but has not given a budget. "
-                                    + "Ask warmly for the budget in taka and the main use (gaming, office, editing...), "
-                                    + "and mention one useful tip about how budget affects the build.", "", ""), req.replyLanguage())
-                            .orElseGet(() -> templates.askBudget(req));
+                    List<Product> related = categoryProducts(text);
+                    String facts = related.isEmpty() ? "" : "=== EZBUILD CATALOGUE FACTS (in stock) ===\n"
+                            + related.stream().map(templates::productFacts).collect(Collectors.joining("\n"));
+                    String web = webNotes(text);
+                    reply = advisor.explain(text, context(conversation, "The customer wants something built or bought but has "
+                                    + "not given a budget. If they asked about a specific part or feature, answer that first "
+                                    + "using the catalogue facts and web notes (name matching products we stock). Then ask "
+                                    + "warmly for their budget in taka and main use so you can plan a full build.", facts, web),
+                            req.replyLanguage()).orElseGet(() -> templates.askBudget(req)) + sources(web);
                     suggestions.addAll(List.of("80k", "1 lakh", "1.5 lakh"));
                     session.setLastRequirements(req);
                     break;
@@ -148,7 +153,11 @@ public class AssistantService {
                 suggestions.addAll(followUps(req));
             }
             case CATALOG_QUESTION, EXPLAIN -> {
-                List<Product> mentioned = mentioned(req, text);
+                List<Product> mentioned = new ArrayList<>(mentioned(req, text));
+                for (Product p : categoryProducts(text)) {
+                    if (mentioned.size() >= 12) break;
+                    if (mentioned.stream().noneMatch(m -> m.getId().equals(p.getId()))) mentioned.add(p);
+                }
                 String facts = mentioned.isEmpty() ? ""
                         : "=== EZBUILD CATALOGUE FACTS ===\n" + mentioned.stream().map(templates::productFacts).collect(Collectors.joining("\n"));
                 String web = webNotes(text + (mentioned.isEmpty() ? ""
@@ -208,6 +217,7 @@ public class AssistantService {
      */
     static String context(String conversation, String task, String facts, String web) {
         StringBuilder sb = new StringBuilder();
+        sb.append("Today's date: ").append(java.time.LocalDate.now(java.time.ZoneId.of("Asia/Dhaka"))).append("\n\n");
         if (!conversation.isBlank()) sb.append("=== CONVERSATION SO FAR (oldest first) ===\n").append(conversation).append("\n\n");
         sb.append("=== YOUR TASK ===\n").append(task).append("\n\n");
         if (!facts.isBlank()) sb.append(facts).append("\n\n");
@@ -284,6 +294,30 @@ public class AssistantService {
                     .content().forEach(p -> found.putIfAbsent(p.getId(), p));
         }
         return new ArrayList<>(found.values()).subList(0, Math.min(6, found.size()));
+    }
+
+    /**
+     * In-stock products of any category the message names ("a card that supports DLSS 5" -> graphics cards),
+     * cheapest first, so the writer can recommend from real stock.
+     */
+    private List<Product> categoryProducts(String text) {
+        String lower = text.toLowerCase(Locale.ROOT);
+        java.util.Set<ProductCategory> cats = new java.util.LinkedHashSet<>();
+        if (lower.matches(".*\\b(card|gpu|graphics|vga|rtx|gtx|radeon|geforce|dlss|fsr|ray tracing)\\b.*")) cats.add(ProductCategory.GPU);
+        if (lower.matches(".*\\b(cpu|processor|ryzen|intel core)\\b.*")) cats.add(ProductCategory.CPU);
+        if (lower.matches(".*\\b(ssd|nvme|hdd|storage|hard disk)\\b.*")) cats.add(ProductCategory.STORAGE);
+        if (lower.matches(".*\\b(ram|memory|ddr4|ddr5)\\b.*")) cats.add(ProductCategory.RAM);
+        if (lower.matches(".*\\b(psu|power supply)\\b.*")) cats.add(ProductCategory.PSU);
+        if (lower.matches(".*\\b(monitor|display|screen)\\b.*")) cats.add(ProductCategory.MONITOR);
+        if (lower.matches(".*\\b(motherboard|mobo|board)\\b.*")) cats.add(ProductCategory.MOTHERBOARD);
+        if (lower.matches(".*\\b(cooler|cooling|aio)\\b.*")) cats.add(ProductCategory.COOLER);
+        if (lower.matches(".*\\b(case|casing|cabinet)\\b.*")) cats.add(ProductCategory.CASE);
+        List<Product> out = new ArrayList<>();
+        for (ProductCategory c : cats) {
+            searchService.search(new ProductFilter(null, c, null, null, null, true, false, Map.of(), "price_asc", 0, 12))
+                    .content().forEach(out::add);
+        }
+        return out.subList(0, Math.min(24, out.size()));
     }
 
     private static List<String> followUps(BuildRequirements req) {

@@ -86,7 +86,7 @@ public class PaymentService {
 
         String valId = params.get("val_id");
         if (valId == null || valId.isBlank()) {
-            return confirmer.apply(payment.getId(), new PaymentOutcome.Failed("No validation id"), null, "sslcommerz");
+            return payment; // no val_id (e.g. a reload): stay pending, the IPN or reconciliation job settles it
         }
         Map<String, Object> v;
         try {
@@ -130,10 +130,19 @@ public class PaymentService {
         Event event = stripe.verify(payload, signature);
         String type = event.getType();
         if (!type.startsWith("checkout.session.")) return;
-        Optional<StripeObject> obj = event.getDataObjectDeserializer().getObject();
-        if (obj.isEmpty() || !(obj.get() instanceof Session session)) {
-            log.warn("Stripe event {} could not be deserialised (API version mismatch?)", event.getId());
+        // Works with any webhook API version: take the session id from the raw event,
+        // then read the session from Stripe itself (in this library's API version)
+        String sessionId = stripeSessionId(event);
+        if (sessionId == null) {
+            log.warn("Stripe event {} has no checkout session id", event.getId());
             return;
+        }
+        Session session;
+        try {
+            session = stripe.retrieve(sessionId);
+        } catch (Exception e) {
+            log.warn("Stripe session retrieve failed for event {}: {}", event.getId(), e.getMessage());
+            throw new IllegalStateException("Stripe session lookup failed"); // non-2xx -> Stripe retries later
         }
         Payment payment = paymentRepository.findByProviderRef(session.getId()).orElse(null);
         if (payment == null) return;
@@ -147,6 +156,19 @@ public class PaymentService {
                     confirmer.apply(payment.getId(), new PaymentOutcome.Cancelled("Session expired"), event.getId(), "stripe");
             default -> { }
         }
+    }
+
+    private static final java.util.regex.Pattern CHECKOUT_ID = java.util.regex.Pattern.compile("\"id\"\\s*:\\s*\"(cs_[A-Za-z0-9_]+)\"");
+
+    /** Checkout session id from the event: typed object when versions match, else the raw JSON. */
+    private static String stripeSessionId(Event event) {
+        var deserializer = event.getDataObjectDeserializer();
+        Optional<StripeObject> obj = deserializer.getObject();
+        if (obj.isPresent() && obj.get() instanceof Session s) return s.getId();
+        String raw = deserializer.getRawJson();
+        if (raw == null) return null;
+        java.util.regex.Matcher m = CHECKOUT_ID.matcher(raw);
+        return m.find() ? m.group(1) : null;
     }
 
     /** Asks Stripe directly (server to server); used by the success page and reconciliation. */
