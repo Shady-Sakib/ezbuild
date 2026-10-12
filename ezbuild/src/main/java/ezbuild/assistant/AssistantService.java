@@ -35,6 +35,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -48,6 +50,7 @@ import java.util.stream.Collectors;
 public class AssistantService {
 
     private static final int DAILY_LIMIT = 100;
+    private static final int WEB_WAIT_SECONDS = 15;
 
     private final AdvisorClient advisor;
     private final RegexExtractor regexExtractor;
@@ -72,8 +75,12 @@ public class AssistantService {
         List<BuildPlan> previousBuilds = lastBuilds(session.getId());
         save(session.getId(), "user", text, List.of(), List.of());
 
-        // 1. requirements: model first, regex fills the gaps (or replaces the model when it is down)
+        // 1. requirements: model first, regex fills the gaps (or replaces the model when it is down).
+        // Web research runs at the same time on the raw message, so the two slow calls overlap.
         BuildRequirements regex = regexExtractor.extract(text);
+        CompletableFuture<String> webFuture = regex.intent() == Intent.OFF_TOPIC || text.length() < 12
+                ? CompletableFuture.completedFuture("")
+                : CompletableFuture.supplyAsync(() -> webNotes(text));
         BuildRequirements extracted = advisor.extract(text, history).map(r -> merge(r, regex)).orElse(regex);
         boolean degraded = "degraded".equals(advisor.mode());
 
@@ -115,7 +122,7 @@ public class AssistantService {
                     List<Product> related = categoryProducts(text);
                     String facts = related.isEmpty() ? "" : "=== EZBUILD CATALOGUE FACTS (in stock) ===\n"
                             + related.stream().map(templates::productFacts).collect(Collectors.joining("\n"));
-                    String web = webNotes(text);
+                    String web = awaitWeb(webFuture);
                     reply = advisor.explain(text, context(conversation, "The customer wants something built or bought but has "
                                     + "not given a budget. If they asked about a specific part or feature, answer that first "
                                     + "using the catalogue facts and web notes (name matching products we stock). Then ask "
@@ -137,7 +144,7 @@ public class AssistantService {
                 session.setLastRequirements(req);
                 String unresolved = res.unresolved().isEmpty() ? ""
                         : "\n\n(I couldn't find " + String.join(", ", res.unresolved()) + " in our stock, so I picked alternatives.)";
-                String web = webNotes(buildResearchQuestion(text, req, builds, refinement ? previousBuilds : List.of(), byId));
+                String web = awaitWeb(webFuture);
                 String facts = "=== PLAN DATA (prices, parts and specs from the EZBuild catalogue) ===\n"
                         + templates.planSummary(builds, byId, req)
                         + (refinement ? "\n=== PREVIOUS SUGGESTION IN THIS CHAT ===\n" + templates.previousSummary(previousBuilds, byId, req) : "")
@@ -160,8 +167,7 @@ public class AssistantService {
                 }
                 String facts = mentioned.isEmpty() ? ""
                         : "=== EZBUILD CATALOGUE FACTS ===\n" + mentioned.stream().map(templates::productFacts).collect(Collectors.joining("\n"));
-                String web = webNotes(text + (mentioned.isEmpty() ? ""
-                        : "\n(Products: " + mentioned.stream().map(Product::getName).collect(Collectors.joining(", ")) + ")"));
+                String web = awaitWeb(webFuture);
                 String task = req.intent() == Intent.CATALOG_QUESTION
                         ? "Answer the customer's product question using the catalogue facts (price, stock, specs). "
                           + "If we don't stock it, say so and suggest the closest item from the facts if any."
@@ -245,36 +251,20 @@ public class AssistantService {
         return "cpu".equals(req.focus()) ? new PlanHints(cpu, Map.of()) : new PlanHints(Map.of(), gpu);
     }
 
-    private String buildResearchQuestion(String message, BuildRequirements req, List<BuildPlan> builds,
-                                         List<BuildPlan> previous, Map<String, Product> byId) {
-        java.util.Set<String> cpus = new java.util.LinkedHashSet<>();
-        java.util.Set<String> gpus = new java.util.LinkedHashSet<>();
-        for (BuildPlan plan : concat(builds, previous)) {
-            for (var part : plan.parts()) {
-                if (part.category() == ProductCategory.CPU) cpus.add(part.name());
-                if (part.category() == ProductCategory.GPU) gpus.add(stripBrand(part.name(), byId.get(part.productId())));
-            }
-        }
-        return "Customer request: " + message + "\nUse case: " + req.useCase().getLabel()
-                + "\nCompare the real-world " + req.useCase().getLabel().toLowerCase(Locale.ROOT) + " performance of these CPUs: "
-                + String.join(", ", cpus) + (gpus.isEmpty() ? "" : "\nand these graphics cards: " + String.join(", ", gpus))
-                + "\nMention any CPU/GPU bottleneck concerns for these pairings.";
-    }
-
-    private static List<BuildPlan> concat(List<BuildPlan> a, List<BuildPlan> b) {
-        List<BuildPlan> all = new ArrayList<>(a);
-        all.addAll(b);
-        return all;
-    }
-
-    private static String stripBrand(String name, Product p) {
-        Object chip = p == null ? null : p.getSpecs().get("chip");
-        return chip == null ? name : chip + " " + p.getSpecs().getOrDefault("vram", "") + "GB";
-    }
 
     private String webNotes(String question) {
         return webResearch.research(question).map(n -> n.text() + (n.sources().isEmpty() ? ""
                 : "\n[sources: " + String.join(", ", n.sources()) + "]")).orElse("");
+    }
+
+    /** Waits at most a few seconds for web notes; a slow search never holds up the reply. */
+    private static String awaitWeb(CompletableFuture<String> f) {
+        try {
+            return f.get(WEB_WAIT_SECONDS, TimeUnit.SECONDS);
+        } catch (Exception e) {
+            log.info("Web research took longer than {}s: replying without it", WEB_WAIT_SECONDS);
+            return "";
+        }
     }
 
     /** Adds a short "Sources:" footer when web notes were used. */

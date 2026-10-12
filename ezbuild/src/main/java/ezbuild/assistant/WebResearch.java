@@ -79,15 +79,18 @@ public class WebResearch {
                             "Today's date: " + java.time.LocalDate.now(java.time.ZoneId.of("Asia/Dhaka"))
                                     + ". Search for the latest information; newer sources win.\n\n" + question)))),
                     "tools", List.of(Map.of("google_search", Map.of())),
-                    "generationConfig", Map.of("temperature", 0.2));
+                    "generationConfig", Map.of("temperature", 0.2,
+                            "thinkingConfig", Map.of("thinkingBudget", 0)));
             @SuppressWarnings("unchecked")
-            Map<String, Object> res = restClient.post()
-                    .uri("https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent", model)
-                    .header("x-goog-api-key", apiKey)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(body)
-                    .retrieve()
-                    .body(Map.class);
+            Map<String, Object> res;
+            try {
+                res = call(body);
+            } catch (org.springframework.web.client.HttpClientErrorException e) {
+                // a model that rejects thinkingBudget=0: retry once with its default thinking
+                Map<String, Object> plain = new java.util.HashMap<>(body);
+                plain.put("generationConfig", Map.of("temperature", 0.2));
+                res = call(plain);
+            }
             Notes notes = parse(res);
             if (notes == null) return Optional.empty();
             synchronized (cache) {
@@ -98,6 +101,17 @@ public class WebResearch {
             log.warn("Web research failed ({}): continuing without web notes", e.getClass().getSimpleName());
             return Optional.empty();
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    private Map<String, Object> call(Map<String, Object> body) {
+        return restClient.post()
+                    .uri("https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent", model)
+                    .header("x-goog-api-key", apiKey)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(body)
+                    .retrieve()
+                    .body(Map.class);
     }
 
     @SuppressWarnings("unchecked")
